@@ -1,12 +1,12 @@
 <?php
 /**
- * Plugin Name: Klarna TMS for WooCommerce
+ * Plugin Name: Klarna Shipping Service for WooCommerce
  * Plugin URI: https://krokedil.com/klarna/
- * Description: Klarna TMS for WooCommerce.
+ * Description: Klarna Shipping Service for WooCommerce.
  * Author: Krokedil
  * Author URI: https://krokedil.com/
  * Version: 0.0.1
- * Text Domain: klarna-tms-for-woocommerce
+ * Text Domain: klarna-shipping-service-for-woocommerce
  * Domain Path: /languages
  *
  * WC requires at least: 3.0
@@ -34,14 +34,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 // Define plugin constants.
-define( 'KLARNA_TMS_VERSION', '0.0.1' );
-define( 'KLARNA_TMS_URL', untrailingslashit( plugins_url( '/', __FILE__ ) ) );
-define( 'KLARNA_TMS_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
+define( 'KLARNA_KSS_VERSION', '0.0.1' );
+define( 'KLARNA_KSS_URL', untrailingslashit( plugins_url( '/', __FILE__ ) ) );
+define( 'KLARNA_KSS_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
 
 /**
  * Plugin main class.
  */
-class Klarna_TMS_For_WooCommerce {
+class Klarna_Shipping_Service_For_WooCommerce {
 
 	/**
 	 * Class constructor.
@@ -69,7 +69,7 @@ class Klarna_TMS_For_WooCommerce {
 	 */
 	public function include_files() {
 		// Include classes.
-		include_once KLARNA_TMS_PATH . '/classes/class-klarna-tms-for-woocommerce-shipping-method.php';
+		include_once KLARNA_KSS_PATH . '/classes/class-klarna-shipping-service-for-woocommerce-shipping-method.php';
 	}
 
 	/**
@@ -80,25 +80,25 @@ class Klarna_TMS_For_WooCommerce {
 	 */
 	public function set_shipping_method( $shipping_method ) {
 		$shipping_methods = WC()->shipping->get_shipping_methods();
-		// Only do this if we have Klarna TMS active on the store, and the returned shipping method is NOT a real WooCommerce shipping method.
-		if ( isset( $shipping_methods['klarna_tms'] ) && ! isset( $shipping_methods[ $shipping_method[0] ] ) ) {
-			$chosen_shipping_methods[] = 'klarna_tms';
+		// Only do this if we have Klarna KSS active on the store, and the returned shipping method is NOT a real WooCommerce shipping method.
+		if ( isset( $shipping_methods['klarna_kss'] ) && ! isset( $shipping_methods[ $shipping_method[0] ] ) ) {
+			$chosen_shipping_methods[] = 'klarna_kss';
 			return $chosen_shipping_methods;
 		}
 		return $shipping_method;
 	}
 
 	/**
-	 * Adds the shipping details from TMS to the WooCommerce order.
+	 * Adds the shipping details from KSS to the WooCommerce order.
 	 *
 	 * @return void
 	 */
 	public function add_shipping_details_to_order( $order_id, $klarna_order ) {
 		if ( isset( $klarna_order->selected_shipping_option ) ) {
 			$shipping_details = $klarna_order->selected_shipping_option;
-			update_post_meta( $order_id, '_kco_tms_data', wp_json_encode( $shipping_details ) );
-			update_post_meta( $order_id, '_kco_tms_reference', $shipping_details->tms_reference );
-			WC()->session->__unset( 'kco_tms_enabled' );
+			update_post_meta( $order_id, '_kco_kss_data', wp_json_encode( $shipping_details ) );
+			update_post_meta( $order_id, '_kco_kss_reference', $shipping_details->tms_reference );
+			WC()->session->__unset( 'kco_kss_enabled' );
 		}
 	}
 
@@ -109,15 +109,15 @@ class Klarna_TMS_For_WooCommerce {
 	 */
 	public function clear_shipping_and_recalculate() {
 		if ( 'kco' === WC()->session->get( 'chosen_payment_method' ) ) {
-			WC()->session->set( 'kco_tms_enabled', true );
+			WC()->session->set( 'kco_kss_enabled', true );
 			WC()->session->__unset( 'shipping_for_package_0' );
 			WC()->cart->calculate_shipping();
 		} else {
-			if ( null !== WC()->session->get( 'kco_tms_enabled' ) ) {
+			if ( null !== WC()->session->get( 'kco_kss_enabled' ) ) {
 				WC()->session->__unset( 'shipping_for_package_0' );
-				WC()->session->__unset( 'kco_tms_enabled' );
+				WC()->session->__unset( 'kco_kss_enabled' );
 			}
 		}
 	}
 }
-new Klarna_TMS_For_WooCommerce();
+new Klarna_Shipping_Service_For_WooCommerce();
