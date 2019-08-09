@@ -70,6 +70,7 @@ class Klarna_Shipping_Service_For_WooCommerce {
 	public function include_files() {
 		// Include classes.
 		include_once KLARNA_KSS_PATH . '/classes/class-klarna-shipping-service-for-woocommerce-shipping-method.php';
+		include_once KLARNA_KSS_PATH . '/classes/class-klarna-shipping-service-for-woocommerce-order-lines.php';
 	}
 
 	/**
