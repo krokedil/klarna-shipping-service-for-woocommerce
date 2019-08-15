@@ -1,8 +1,11 @@
 # Klarna Shipping Service for WooCommerce
 
-**Requires [WooCommerce](https://wordpress.org/plugins/woocommerce/) together with [Klarna Checkout for WooCommerce](https://wordpress.org/plugins/klarna-checkout-for-woocommerce/) to be used**
-
 Klarna Shipping Service for WooCommerce is an add-on plugin to Klarna Checkout for WooCommerce. This add-on plugin makes it possible to display shipping options in the KCO iframe provided by your TMS.
+
+---
+### Requirements
+* Your Klarna account needs to be activated for Klarna Shipping Service with TMS before using this plugin.
+* Requires [WooCommerce](https://wordpress.org/plugins/woocommerce/) together with [Klarna Checkout for WooCommerce](https://wordpress.org/plugins/klarna-checkout-for-woocommerce/) to be used.
 
 ---
 ### Installation
