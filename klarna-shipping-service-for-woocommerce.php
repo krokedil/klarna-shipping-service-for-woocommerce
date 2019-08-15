@@ -5,7 +5,7 @@
  * Description: Klarna Shipping Service for WooCommerce.
  * Author: Krokedil
  * Author URI: https://krokedil.com/
- * Version: 0.0.1
+ * Version: 0.1.0
  * Text Domain: klarna-shipping-service-for-woocommerce
  * Domain Path: /languages
  *
@@ -34,7 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 // Define plugin constants.
-define( 'KLARNA_KSS_VERSION', '0.0.1' );
+define( 'KLARNA_KSS_VERSION', '0.1.0' );
 define( 'KLARNA_KSS_URL', untrailingslashit( plugins_url( '/', __FILE__ ) ) );
 define( 'KLARNA_KSS_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
 
@@ -48,6 +48,7 @@ class Klarna_Shipping_Service_For_WooCommerce {
 	 */
 	public function __construct() {
 		add_action( 'plugins_loaded', array( $this, 'init' ) );
+		add_action( 'plugins_loaded', array( $this, 'check_version' ) );
 		add_action( 'kco_wc_process_payment', array( $this, 'add_shipping_details_to_order' ), 10, 2 );
 		add_action( 'woocommerce_checkout_update_order_review', array( $this, 'clear_shipping_and_recalculate' ) );
 		add_filter( 'kco_wc_chosen_shipping_method', array( $this, 'set_shipping_method' ) );
@@ -119,6 +120,21 @@ class Klarna_Shipping_Service_For_WooCommerce {
 				WC()->session->__unset( 'kco_kss_enabled' );
 			}
 		}
+	}
+
+	/**
+	 * Checks the plugin version.
+	 *
+	 * @return void
+	 */
+	public function check_version() {
+		require KLARNA_KSS_PATH . '/includes/plugin_update_check.php';
+		$KernlUpdater = new PluginUpdateChecker_2_0(
+			'https://kernl.us/api/v1/updates/5d55892b8e5ece2071af8e83/',
+			__FILE__,
+			'klarna-shipping-service-for-woocommerce',
+			1
+		);
 	}
 }
 new Klarna_Shipping_Service_For_WooCommerce();
