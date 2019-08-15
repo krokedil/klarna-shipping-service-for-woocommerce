@@ -25,5 +25,8 @@ More information regarding configuration of this plugin can be found in the docu
 
 == Changelog ==
 
+= 2019.08.15	- version 0.1.1 =
+* Tweak         - Updated readme.
+
 = 2019.08.15	- version 0.1 =
 * Initial release
