@@ -59,18 +59,11 @@ class Klarna_Shipping_Serivce_For_WooCommerce_Shipping_Method extends WC_Shippin
 				$cost       = floatval( $klarna_order->selected_shipping_option->price - $klarna_order->selected_shipping_option->tax_amount ) / 100;
 				$tax_amount = floatval( $klarna_order->selected_shipping_option->tax_amount ) / 100;
 
-				// Set taxes array.
-				$taxes   = array();
-				$taxes[] = $tax_amount;
-
-				// Tax status to none to prevent automatic calculations.
-				$this->tax_status = 'none';
-
 				$rate = array(
 					'id'    => $this->id,
 					'label' => $label,
 					'cost'  => $cost,
-					'taxes' => $taxes,
+					'taxes' => $tax_amount,
 				);
 			}
 			$this->add_rate( $rate );
