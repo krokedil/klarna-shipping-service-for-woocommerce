@@ -37,7 +37,6 @@ class Klarna_Shipping_Service_Order_Lines {
 			$new_order_lines[] = $order_line;
 		}
 		$request_args['order_lines'] = $new_order_lines;
-		error_log( var_export( $request_args, true ) );
 		return $request_args;
 	}
 
@@ -56,18 +55,25 @@ class Klarna_Shipping_Service_Order_Lines {
 		if ( ! $product ) {
 			return false;
 		}
+
+		$product_weight = ! empty( $product->get_weight() ) ? $product->get_weight() : 0;
+		$product_height = ! empty( $product->get_height() ) ? $product->get_height() : 0;
+		$product_width  = ! empty( $product->get_width() ) ? $product->get_width() : 0;
+		$product_length = ! empty( $product->get_length() ) ? $product->get_length() : 0;
+
 		$shipping_attributes = array(
-			'weight'     => round( wc_get_weight( $product->get_weight(), 'g' ) ),
+			'weight'     => round( wc_get_weight( $product_weight, 'g' ) ),
 			'dimensions' => array(
-				'height' => round( wc_get_dimension( $product->get_height(), 'mm' ) ),
-				'width'  => round( wc_get_dimension( $product->get_width(), 'mm' ) ),
-				'length' => round( wc_get_dimension( $product->get_length(), 'mm' ) ),
+				'height' => round( wc_get_dimension( $product_height, 'mm' ) ),
+				'width'  => round( wc_get_dimension( $product_width, 'mm' ) ),
+				'length' => round( wc_get_dimension( $product_length, 'mm' ) ),
 			),
 		);
 
 		// Return array without any empty values.
 		return array_filter(
-			$shipping_attributes, function( $value ) {
+			$shipping_attributes,
+			function( $value ) {
 				return ! is_null( $value ) && $value !== '';
 			}
 		);
