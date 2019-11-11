@@ -5,7 +5,7 @@
  * Description: Klarna Shipping Service for WooCommerce.
  * Author: Krokedil
  * Author URI: https://krokedil.com/
- * Version: 0.1.1
+ * Version: 0.1.2
  * Text Domain: klarna-shipping-service-for-woocommerce
  * Domain Path: /languages
  *
