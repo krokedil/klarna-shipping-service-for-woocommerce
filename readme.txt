@@ -25,6 +25,9 @@ More information regarding configuration of this plugin can be found in the docu
 
 == Changelog ==
 
+= 2019.11.12	- version 0.1.3 =
+* Fix           - Reverted the way shipping tax is added to order.
+
 = 2019.11.11	- version 0.1.2 =
 * Fix           - Correctly add shipping tax to order.
 * Fix           - Default to 0 for missing product dimensions.
