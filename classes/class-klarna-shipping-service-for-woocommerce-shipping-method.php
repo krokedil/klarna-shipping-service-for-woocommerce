@@ -28,6 +28,8 @@ class Klarna_Shipping_Serivce_For_WooCommerce_Shipping_Method extends WC_Shippin
 		$this->supports           = array(
 			'shipping-zones',
 		);
+		$this->kss_tax_amount     = false;
+		add_filter( 'woocommerce_shipping_packages', array( $this, 'kss_add_tax' ) );
 	}
 
 	/**
@@ -55,28 +57,48 @@ class Klarna_Shipping_Serivce_For_WooCommerce_Shipping_Method extends WC_Shippin
 		if ( null !== WC()->session->get( 'kco_wc_order_id' ) ) {
 			$klarna_order = KCO_WC()->api->get_order();
 			if ( isset( $klarna_order->selected_shipping_option ) ) {
-				$label      = $klarna_order->selected_shipping_option->name;
-				$cost       = floatval( $klarna_order->selected_shipping_option->price - $klarna_order->selected_shipping_option->tax_amount ) / 100;
-				$tax_amount = floatval( $klarna_order->selected_shipping_option->tax_amount ) / 100;
-
-				// Set taxes array.
-				$taxes   = array();
-				$taxes[] = $tax_amount;
-
-				// Tax status to none to prevent automatic calculations.
-				$this->tax_status = 'none';
+				$label                = $klarna_order->selected_shipping_option->name;
+				$cost                 = floatval( $klarna_order->selected_shipping_option->price - $klarna_order->selected_shipping_option->tax_amount ) / 100;
+				$tax_amount           = floatval( $klarna_order->selected_shipping_option->tax_amount ) / 100;
+				$this->kss_tax_amount = $tax_amount;
 
 				$rate = array(
-					'id'    => $this->id,
+					'id'    => $this->get_rate_id(),
 					'label' => $label,
 					'cost'  => $cost,
-					'taxes' => $taxes,
 				);
 			}
 			$this->add_rate( $rate );
 		}
 	}
+
+	/**
+	 * Add tax amount to shipping.
+	 *
+	 * @param array $packages packages.
+	 * @return array
+	 */
+	public function kss_add_tax( $packages ) {
+		if ( false !== $this->kss_tax_amount ) {
+			foreach ( $packages as $i => $package ) {
+				foreach ( $package['rates'] as $rate_key => $rate_values ) {
+					if ( 'klarna_kss' === $rate_values->method_id ) { // check that the shipping is KSS.
+						$taxes = array();
+						foreach ( $package['rates'][ $rate_key ]->taxes as $key => $tax ) {
+							// set the KSS tax amount in the taxes array.
+							$taxes[ $key ] = $this->kss_tax_amount;
+						}
+						// Set the tax amount.
+						$package['rates'][ $rate_key ]->taxes = $taxes;
+					}
+				}
+			}
+		}
+		return $packages;
+	}
+
 }
+
 add_filter( 'woocommerce_shipping_methods', 'add_kss_shipping_method' );
 /**
  * Registers the shipping method.
