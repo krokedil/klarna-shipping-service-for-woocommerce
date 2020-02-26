@@ -25,6 +25,10 @@ More information regarding configuration of this plugin can be found in the docu
 
 == Changelog ==
 
+= 2020.02.26	- version 0.1.4 =
+* Fix           - Wrapped our functions in method exists to prevent error if WooCommerce is disabled.
+* Enhancement   - Added tax amount to the shipping method for KSS orders.
+
 = 2019.11.12	- version 0.1.3 =
 * Fix           - Reverted the way shipping tax is added to order.
 
