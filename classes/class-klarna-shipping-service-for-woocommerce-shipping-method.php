@@ -57,11 +57,11 @@ if ( class_exists( 'WC_Shipping_Method' ) ) {
 			$label = 'Klarna Shipping Service';
 			$cost  = 0;
 			if ( null !== WC()->session->get( 'kco_wc_order_id' ) ) {
-				$klarna_order = KCO_WC()->api->get_order();
-				if ( isset( $klarna_order->selected_shipping_option ) ) {
-					$label                = $klarna_order->selected_shipping_option->name;
-					$cost                 = floatval( $klarna_order->selected_shipping_option->price - $klarna_order->selected_shipping_option->tax_amount ) / 100;
-					$tax_amount           = floatval( $klarna_order->selected_shipping_option->tax_amount ) / 100;
+				$klarna_order = KCO_WC()->api->get_klarna_order( WC()->session->get( 'kco_wc_order_id' ) );
+				if ( isset( $klarna_order['selected_shipping_option'] ) ) {
+					$label                = $klarna_order['selected_shipping_option']['name'];
+					$cost                 = floatval( $klarna_order['selected_shipping_option']['price'] - $klarna_order['selected_shipping_option']['tax_amount'] ) / 100;
+					$tax_amount           = floatval( $klarna_order['selected_shipping_option']['tax_amount'] ) / 100;
 					$this->kss_tax_amount = $tax_amount;
 
 					$rate = array(
