@@ -24,6 +24,8 @@ To install this plugin you first need to have Klarna Checkout for WooCommerce in
 More information regarding configuration of this plugin can be found in the documentation here: https://docs.krokedil.com/article/298-klarna-shipping-service-for-woocommerce.
 
 == Changelog ==
+= 2020.03.10	- version 0.1.5 =
+* Enhancement   - Added support for Klarna Checkout For WooCommerce 2.x.
 
 = 2020.02.26	- version 0.1.4 =
 * Fix           - Wrapped our functions in method exists to prevent error if WooCommerce is disabled.
