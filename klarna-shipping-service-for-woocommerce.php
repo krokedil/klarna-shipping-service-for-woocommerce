@@ -98,7 +98,7 @@ class Klarna_Shipping_Service_For_WooCommerce {
 	public function add_shipping_details_to_order( $order_id, $klarna_order ) {
 		if ( isset( $klarna_order['selected_shipping_option'] ) ) {
 			$shipping_details = $klarna_order['selected_shipping_option'];
-			update_post_meta( $order_id, '_kco_kss_data', wp_json_encode( $shipping_details ) );
+			update_post_meta( $order_id, '_kco_kss_data', wp_json_encode( $shipping_details, JSON_UNESCAPED_UNICODE ) );
 			update_post_meta( $order_id, '_kco_kss_reference', $shipping_details['tms_reference'] );
 			WC()->session->__unset( 'kco_kss_enabled' );
 		}
