@@ -5,12 +5,12 @@
  * Description: Klarna Shipping Service for WooCommerce.
  * Author: Krokedil
  * Author URI: https://krokedil.com/
- * Version: 0.1.5
+ * Version: 0.1.6
  * Text Domain: klarna-shipping-service-for-woocommerce
  * Domain Path: /languages
  *
  * WC requires at least: 3.0
- * WC tested up to: 3.6.5
+ * WC tested up to: 4.0.1
  *
  * Copyright (c) 2017-2019 Krokedil
  *
@@ -34,7 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 // Define plugin constants.
-define( 'KLARNA_KSS_VERSION', '0.1.5' );
+define( 'KLARNA_KSS_VERSION', '0.1.6' );
 define( 'KLARNA_KSS_URL', untrailingslashit( plugins_url( '/', __FILE__ ) ) );
 define( 'KLARNA_KSS_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
 
