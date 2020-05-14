@@ -5,7 +5,7 @@ Requires at least: 5.0.0
 Tested up to: 5.4.0
 Requires PHP: 5.6
 WC requires at least: 3.5.0
-WC tested up to: 4.0.1
+WC tested up to: 4.1.0
 Stable tag: trunk
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -26,6 +26,7 @@ More information regarding configuration of this plugin can be found in the docu
 == Changelog ==
 = 2020.04.09    - version 0.1.6 =
 * Enhancement   - Added support for special signs (åäö) get formatted correctly to the order.
+* Enhancement   - Allow plugins to add setting to KSS shipping method.
 
 = 2020.03.10	- version 0.1.5 =
 * Enhancement   - Added support for Klarna Checkout For WooCommerce 2.x.
