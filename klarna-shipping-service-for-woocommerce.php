@@ -5,12 +5,12 @@
  * Description: Klarna Shipping Service for WooCommerce.
  * Author: Krokedil
  * Author URI: https://krokedil.com/
- * Version: 0.1.6
+ * Version: 0.2.0
  * Text Domain: klarna-shipping-service-for-woocommerce
  * Domain Path: /languages
  *
- * WC requires at least: 3.0
- * WC tested up to: 4.1.0
+ * WC requires at least: 3.8
+ * WC tested up to: 4.3.2
  *
  * Copyright (c) 2017-2019 Krokedil
  *
@@ -34,7 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 // Define plugin constants.
-define( 'KLARNA_KSS_VERSION', '0.1.6' );
+define( 'KLARNA_KSS_VERSION', '0.2.0' );
 define( 'KLARNA_KSS_URL', untrailingslashit( plugins_url( '/', __FILE__ ) ) );
 define( 'KLARNA_KSS_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
 
@@ -52,6 +52,7 @@ class Klarna_Shipping_Service_For_WooCommerce {
 		add_action( 'kco_wc_process_payment', array( $this, 'add_shipping_details_to_order' ), 10, 2 );
 		add_action( 'woocommerce_checkout_update_order_review', array( $this, 'clear_shipping_and_recalculate' ) );
 		add_filter( 'kco_wc_chosen_shipping_method', array( $this, 'set_shipping_method' ) );
+		add_filter( 'kco_check_if_needs_payment', array( $this, 'change_check_if_needs_payment' ) );
 	}
 
 	/**
@@ -120,6 +121,19 @@ class Klarna_Shipping_Service_For_WooCommerce {
 				WC()->session->__unset( 'kco_kss_enabled' );
 			}
 		}
+	}
+
+	/**
+	 * Make sure that KCO iframe is displayed in checkout even if order total is 0.
+	 * This is needed so we can save the tms data to the Woo order.
+	 *
+	 * @param bool $bool Wether or not the plugin should check if KCO checkout should be displayed. Defaults to true.
+	 *
+	 * @return bool
+	 */
+	public function change_check_if_needs_payment( $bool ) {
+		// Allways return false. We want to display the KCO iframe even if order total is 0.
+		return false;
 	}
 
 	/**
