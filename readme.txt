@@ -2,10 +2,10 @@
 Contributors: krokedil
 Tags: woocommerce, klarna, ecommerce, e-commerce, instant shopping
 Requires at least: 5.0.0
-Tested up to: 5.4.0
+Tested up to: 5.5
 Requires PHP: 5.6
 WC requires at least: 3.5.0
-WC tested up to: 4.1.0
+WC tested up to: 4.3.2
 Stable tag: trunk
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -24,6 +24,9 @@ To install this plugin you first need to have Klarna Checkout for WooCommerce in
 More information regarding configuration of this plugin can be found in the documentation here: https://docs.krokedil.com/article/298-klarna-shipping-service-for-woocommerce.
 
 == Changelog ==
+= 2020.08.12    - version 0.2.0 =
+* Enhancement   - Display KCO checkout even if order total is 0. This is needed to save tms data correctly in Woo order.
+
 = 2020.04.09    - version 0.1.6 =
 * Enhancement   - Added support for special signs (åäö) get formatted correctly to the order.
 * Enhancement   - Allow plugins to add setting to KSS shipping method.
