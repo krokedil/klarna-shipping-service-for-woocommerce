@@ -3,5 +3,10 @@
         "description" : "<ul><li>Enhancement - Display KCO checkout even if order total is 0. This is needed to save tms data correctly in Woo order.</li></ul>",
 		"requires" : "4.7.0",
 		"tested" : "5.5"
+    },
+    "0.2.1" : {
+        "description" : "<ul><li>Fix - Save Klarna data in Woo order and reply to JS validation event even for 0 value orders.</li></ul>",
+		"requires" : "4.7.0",
+		"tested" : "5.5"
     }
 }

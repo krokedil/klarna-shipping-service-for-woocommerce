@@ -5,7 +5,7 @@
  * Description: Klarna Shipping Service for WooCommerce.
  * Author: Krokedil
  * Author URI: https://krokedil.com/
- * Version: 0.2.0
+ * Version: 0.2.1
  * Text Domain: klarna-shipping-service-for-woocommerce
  * Domain Path: /languages
  *
@@ -34,7 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 // Define plugin constants.
-define( 'KLARNA_KSS_VERSION', '0.2.0' );
+define( 'KLARNA_KSS_VERSION', '0.2.1' );
 define( 'KLARNA_KSS_URL', untrailingslashit( plugins_url( '/', __FILE__ ) ) );
 define( 'KLARNA_KSS_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
 
@@ -73,6 +73,7 @@ class Klarna_Shipping_Service_For_WooCommerce {
 		// Include classes.
 		include_once KLARNA_KSS_PATH . '/classes/class-klarna-shipping-service-for-woocommerce-shipping-method.php';
 		include_once KLARNA_KSS_PATH . '/classes/class-klarna-shipping-service-for-woocommerce-order-lines.php';
+		include_once KLARNA_KSS_PATH . '/classes/class-klarna-shipping-service-for-woocommerce-free-orders.php';
 	}
 
 	/**

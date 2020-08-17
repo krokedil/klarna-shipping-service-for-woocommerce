@@ -24,6 +24,9 @@ To install this plugin you first need to have Klarna Checkout for WooCommerce in
 More information regarding configuration of this plugin can be found in the documentation here: https://docs.krokedil.com/article/298-klarna-shipping-service-for-woocommerce.
 
 == Changelog ==
+= 2020.08.17    - version 0.2.1 =
+* Fix           - Save Klarna data in Woo order and reply to JS validation event even for 0 value orders.
+
 = 2020.08.12    - version 0.2.0 =
 * Enhancement   - Display KCO checkout even if order total is 0. This is needed to save tms data correctly in Woo order.
 
