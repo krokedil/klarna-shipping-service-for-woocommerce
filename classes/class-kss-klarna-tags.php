@@ -27,11 +27,11 @@ class KSS_Klarna_Tags {
 	 * @return array
 	 */
 	public function maybe_add_free_shipping_tag( $request_args ) {
+		// Get old tags if they exist.
 		$tags = isset( $request_args['tags'] ) ? $request_args['tags'] : array();
 		foreach ( WC()->cart->get_applied_coupons() as $coupon_code ) {
 			$coupon = new WC_Coupon( $coupon_code );
 			if ( $coupon->get_free_shipping() ) {
-				// Get old tags if they exist.
 				$tags[] = 'ksa_free_shipping';
 			}
 		}
