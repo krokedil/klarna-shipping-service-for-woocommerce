@@ -27,7 +27,7 @@ if ( class_exists( 'WC_Shipping_Method' ) ) {
 			$this->title              = 'Klarna Shipping Service';
 			$this->method_title       = __( 'Klarna Shipping Service', 'klarna-shipping-service-for-woocommerce' );
 			$this->method_description = __( 'Enables Klarna Shipping Service for WooCommerce', 'klarna-shipping-service-for-woocommerce' );
-			$this->supports  = array(
+			$this->supports           = array(
 				'shipping-zones',
 				'instance-settings',
 				'instance-settings-modal',
@@ -42,10 +42,10 @@ if ( class_exists( 'WC_Shipping_Method' ) ) {
 		 */
 		public function init_form_fields() {
 			$this->instance_form_fields = array(
-				'title'      => array(
+				'title' => array(
 					'title'       => __( 'Klarna Shipping Services', 'klarna-shipping-service-for-woocommerce' ),
 					'type'        => 'title',
-					'description' => __( 'There are currently no settings for Klarna Shipping Services since this is controlled by the TMS-provider. If other plugins adds settings, these are shown below.', 'klarna-shipping-service-for-woocommerce' )
+					'description' => __( 'There are currently no settings for Klarna Shipping Services since this is controlled by the TMS-provider. If other plugins adds settings, these are shown below.', 'klarna-shipping-service-for-woocommerce' ),
 				),
 			);
 		}
