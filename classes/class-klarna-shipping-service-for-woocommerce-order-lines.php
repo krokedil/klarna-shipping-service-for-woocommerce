@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 /**
  * Order lines class
  *
@@ -74,7 +74,7 @@ class Klarna_Shipping_Service_Order_Lines {
 		return array_filter(
 			$shipping_attributes,
 			function( $value ) {
-				return ! is_null( $value ) && $value !== '';
+				return ! is_null( $value ) && '' !== $value;
 			}
 		);
 	}

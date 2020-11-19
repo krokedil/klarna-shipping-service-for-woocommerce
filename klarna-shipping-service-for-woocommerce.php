@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 /**
  * Plugin Name: Klarna Shipping Service for WooCommerce
  * Plugin URI: https://krokedil.com/klarna/
@@ -95,6 +95,8 @@ class Klarna_Shipping_Service_For_WooCommerce {
 	/**
 	 * Adds the shipping details from KSS to the WooCommerce order.
 	 *
+	 * @param int   $order_id The WooCommerce order id.
+	 * @param array $klarna_order The Klarna order.
 	 * @return void
 	 */
 	public function add_shipping_details_to_order( $order_id, $klarna_order ) {
@@ -144,7 +146,7 @@ class Klarna_Shipping_Service_For_WooCommerce {
 	 */
 	public function check_version() {
 		require KLARNA_KSS_PATH . '/includes/plugin_update_check.php';
-		$KernlUpdater = new PluginUpdateChecker_2_0(
+		$KernlUpdater = new PluginUpdateChecker_2_0( // phpcs:ignore
 			'https://kernl.us/api/v1/updates/5d55892b8e5ece2071af8e83/',
 			__FILE__,
 			'klarna-shipping-service-for-woocommerce',
