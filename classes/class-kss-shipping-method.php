@@ -14,7 +14,7 @@ if ( class_exists( 'WC_Shipping_Method' ) ) {
 	/**
 	 * Shipping method class.
 	 */
-	class Klarna_Shipping_Serivce_For_WooCommerce_Shipping_Method extends WC_Shipping_Method {
+	class KSS_Shipping_Method extends WC_Shipping_Method {
 
 		/**
 		 * Class constructor.
@@ -125,7 +125,7 @@ if ( class_exists( 'WC_Shipping_Method' ) ) {
 	 * @return array
 	 */
 	function add_kss_shipping_method( $methods ) {
-		$methods['klarna_kss'] = 'Klarna_Shipping_Serivce_For_WooCommerce_Shipping_Method';
+		$methods['klarna_kss'] = 'KSS_Shipping_Method';
 		return $methods;
 	}
 }

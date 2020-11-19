@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Free Orders class
  */
-class Klarna_Shipping_Service_Free_Orders {
+class KSS_Free_Orders {
 	/**
 	 * Class constructor.
 	 */
@@ -100,4 +100,4 @@ class Klarna_Shipping_Service_Free_Orders {
 		return false;
 	}
 
-} new Klarna_Shipping_Service_Free_Orders();
+} new KSS_Free_Orders();

@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Order lines class
  */
-class Klarna_Shipping_Service_Order_Lines {
+class KSS_Order_Lines {
 	/**
 	 * Class constructor.
 	 */
@@ -79,4 +79,4 @@ class Klarna_Shipping_Service_Order_Lines {
 		);
 	}
 
-} new Klarna_Shipping_Service_Order_Lines();
+} new KSS_Order_Lines();
