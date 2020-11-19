@@ -74,7 +74,7 @@ class Klarna_Shipping_Service_For_WooCommerce {
 		include_once KLARNA_KSS_PATH . '/classes/class-kss-shipping-method.php';
 		include_once KLARNA_KSS_PATH . '/classes/class-kss-order-lines.php';
 		include_once KLARNA_KSS_PATH . '/classes/class-kss-free-orders.php';
-		include_once KLARNA_KSS_PATH . '/classes/class-kss-klarna-tags.php';
+		include_once KLARNA_KSS_PATH . '/classes/class-kss-edit-klarna-order.php';
 	}
 
 	/**

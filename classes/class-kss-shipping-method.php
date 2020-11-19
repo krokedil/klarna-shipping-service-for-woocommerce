@@ -70,24 +70,22 @@ if ( class_exists( 'WC_Shipping_Method' ) ) {
 		 * @return void
 		 */
 		public function calculate_shipping( $package = array() ) {
-			$label = 'Klarna Shipping Service';
-			$cost  = 0;
-			if ( null !== WC()->session->get( 'kco_wc_order_id' ) ) {
-				$klarna_order = KCO_WC()->api->get_klarna_order( WC()->session->get( 'kco_wc_order_id' ) );
-				if ( isset( $klarna_order['selected_shipping_option'] ) ) {
-					$label                = $klarna_order['selected_shipping_option']['name'];
-					$cost                 = floatval( $klarna_order['selected_shipping_option']['price'] - $klarna_order['selected_shipping_option']['tax_amount'] ) / 100;
-					$tax_amount           = floatval( $klarna_order['selected_shipping_option']['tax_amount'] ) / 100;
-					$this->kss_tax_amount = $tax_amount;
+			$label         = 'Klarna Shipping Service';
+			$cost          = 0;
+			$shipping_data = WC()->session->get( 'kss_shipping_data' );
+			if ( ! empty( $shipping_data ) ) {
+				$label                = $shipping_data['name'];
+				$cost                 = floatval( $shipping_data['price'] - $shipping_data['tax_amount'] ) / 100;
+				$tax_amount           = floatval( $shipping_data['tax_amount'] ) / 100;
+				$this->kss_tax_amount = $tax_amount;
 
-					$rate = array(
-						'id'    => $this->get_rate_id(),
-						'label' => $label,
-						'cost'  => $cost,
-					);
-				}
-				$this->add_rate( $rate );
+				$rate = array(
+					'id'    => $this->get_rate_id(),
+					'label' => $label,
+					'cost'  => $cost,
+				);
 			}
+			$this->add_rate( $rate );
 		}
 
 		/**
@@ -114,7 +112,6 @@ if ( class_exists( 'WC_Shipping_Method' ) ) {
 			}
 			return $packages;
 		}
-
 	}
 
 	add_filter( 'woocommerce_shipping_methods', 'add_kss_shipping_method' );
