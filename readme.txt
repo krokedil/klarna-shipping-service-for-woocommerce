@@ -1,17 +1,17 @@
-=== Klarna Shipping Service for WooCommerce ===
+=== Klarna Shipping Assistant for WooCommerce ===
 Contributors: krokedil
 Tags: woocommerce, klarna, ecommerce, e-commerce, instant shopping
 Requires at least: 5.0.0
-Tested up to: 5.5
+Tested up to: 5.5.6
 Requires PHP: 5.6
 WC requires at least: 3.5.0
-WC tested up to: 4.3.2
+WC tested up to: 4.8.0
 Stable tag: trunk
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 == DESCRIPTION ==
-Klarna Shipping Service for WooCommerce is an add-on plugin to Klarna Checkout for WooCommerce. This add-on plugin makes it possible to display shipping options in the KCO iframe provided by your TMS.
+Klarna Shipping Assistant for WooCommerce is an add-on plugin to Klarna Checkout for WooCommerce. This add-on plugin makes it possible to display shipping options in the KCO iframe provided by your TMS.
 
 == Installation ==
 To install this plugin you first need to have Klarna Checkout for WooCommerce installed. You install this plugin just like any other WordPress plugin:
@@ -24,6 +24,13 @@ To install this plugin you first need to have Klarna Checkout for WooCommerce in
 More information regarding configuration of this plugin can be found in the documentation here: https://docs.krokedil.com/article/298-klarna-shipping-service-for-woocommerce.
 
 == Changelog ==
+= 2020.12.16    - version 1.0.0 =
+* Changed the name of the plugin to Klarna Shipping Assistant.
+* Feature       - Added a feature that adds a tag to the Klarna order when a free shipping coupon is used. This tag is called "ksa_free_shipping" and can be read by the TMS to enable free shipping alternatives.
+* Feature       - Added product shipping classes as tags to the Klarna order items. These tags can be read by the TMS system to change what shipping methods should be available.
+* Feature       - Replace the shipping calculation on the cart page with a standard display for Klarna Shipping Assistant. It will either show the KSA shipping information if it exists, or it will tell the customer that shipping is calculated on the checkout page.
+* Enhancement   - Improved the speed and reliability of the checkout process when using Klarna Shipping Assistant. These changes requires you to use this plugin along with Klarna Checkout for WooCommerce version 2.4.1 or newer. Older versions will no longer work.
+
 = 2020.08.17    - version 0.2.1 =
 * Fix           - Save Klarna data in Woo order and reply to JS validation event even for 0 value orders.
 

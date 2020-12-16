@@ -1,18 +1,18 @@
-<?php
+<?php // phpcs:ignore
 /**
- * Plugin Name: Klarna Shipping Service for WooCommerce
+ * Plugin Name: Klarna Shipping Assistant for WooCommerce
  * Plugin URI: https://krokedil.com/klarna/
- * Description: Klarna Shipping Service for WooCommerce.
+ * Description: Klarna Shipping Assistant for WooCommerce.
  * Author: Krokedil
  * Author URI: https://krokedil.com/
- * Version: 0.2.1
+ * Version: 1.0.0
  * Text Domain: klarna-shipping-service-for-woocommerce
  * Domain Path: /languages
  *
  * WC requires at least: 3.8
- * WC tested up to: 4.3.2
+ * WC tested up to: 4.8.0
  *
- * Copyright (c) 2017-2019 Krokedil
+ * Copyright (c) 2017-2020 Krokedil
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 // Define plugin constants.
-define( 'KLARNA_KSS_VERSION', '0.2.1' );
+define( 'KLARNA_KSS_VERSION', '1.0.0' );
 define( 'KLARNA_KSS_URL', untrailingslashit( plugins_url( '/', __FILE__ ) ) );
 define( 'KLARNA_KSS_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
 
@@ -71,9 +71,14 @@ class Klarna_Shipping_Service_For_WooCommerce {
 	 */
 	public function include_files() {
 		// Include classes.
-		include_once KLARNA_KSS_PATH . '/classes/class-klarna-shipping-service-for-woocommerce-shipping-method.php';
-		include_once KLARNA_KSS_PATH . '/classes/class-klarna-shipping-service-for-woocommerce-order-lines.php';
-		include_once KLARNA_KSS_PATH . '/classes/class-klarna-shipping-service-for-woocommerce-free-orders.php';
+		if ( is_admin() ) {
+			include_once KLARNA_KSS_PATH . '/classes/class-kss-admin-notices.php';
+		}
+		include_once KLARNA_KSS_PATH . '/classes/class-kss-cart-page.php';
+		include_once KLARNA_KSS_PATH . '/classes/class-kss-shipping-method.php';
+		include_once KLARNA_KSS_PATH . '/classes/class-kss-order-lines.php';
+		include_once KLARNA_KSS_PATH . '/classes/class-kss-free-orders.php';
+		include_once KLARNA_KSS_PATH . '/classes/class-kss-edit-klarna-order.php';
 	}
 
 	/**
@@ -95,6 +100,8 @@ class Klarna_Shipping_Service_For_WooCommerce {
 	/**
 	 * Adds the shipping details from KSS to the WooCommerce order.
 	 *
+	 * @param int   $order_id The WooCommerce order id.
+	 * @param array $klarna_order The Klarna order.
 	 * @return void
 	 */
 	public function add_shipping_details_to_order( $order_id, $klarna_order ) {
@@ -144,7 +151,7 @@ class Klarna_Shipping_Service_For_WooCommerce {
 	 */
 	public function check_version() {
 		require KLARNA_KSS_PATH . '/includes/plugin_update_check.php';
-		$KernlUpdater = new PluginUpdateChecker_2_0(
+		$KernlUpdater = new PluginUpdateChecker_2_0( // phpcs:ignore
 			'https://kernl.us/api/v1/updates/5d55892b8e5ece2071af8e83/',
 			__FILE__,
 			'klarna-shipping-service-for-woocommerce',
