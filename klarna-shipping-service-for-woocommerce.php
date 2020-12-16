@@ -71,6 +71,9 @@ class Klarna_Shipping_Service_For_WooCommerce {
 	 */
 	public function include_files() {
 		// Include classes.
+		if ( is_admin() ) {
+			include_once KLARNA_KSS_PATH . '/classes/class-kss-admin-notices.php';
+		}
 		include_once KLARNA_KSS_PATH . '/classes/class-kss-cart-page.php';
 		include_once KLARNA_KSS_PATH . '/classes/class-kss-shipping-method.php';
 		include_once KLARNA_KSS_PATH . '/classes/class-kss-order-lines.php';
