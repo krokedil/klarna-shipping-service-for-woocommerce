@@ -5,14 +5,14 @@
  * Description: Klarna Shipping Assistant for WooCommerce.
  * Author: Krokedil
  * Author URI: https://krokedil.com/
- * Version: 0.2.1
+ * Version: 1.0.0
  * Text Domain: klarna-shipping-service-for-woocommerce
  * Domain Path: /languages
  *
  * WC requires at least: 3.8
- * WC tested up to: 4.3.2
+ * WC tested up to: 4.8.0
  *
- * Copyright (c) 2017-2019 Krokedil
+ * Copyright (c) 2017-2020 Krokedil
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

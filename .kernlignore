@@ -1,5 +1,6 @@
 /.devcontainer
 .kernlignore
 .gitignore
+.gitattributes
 Dockerfile
 docker-compose.yml
