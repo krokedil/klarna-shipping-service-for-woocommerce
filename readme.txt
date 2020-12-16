@@ -1,4 +1,4 @@
-=== Klarna Shipping Service for WooCommerce ===
+=== Klarna Shipping Assistant for WooCommerce ===
 Contributors: krokedil
 Tags: woocommerce, klarna, ecommerce, e-commerce, instant shopping
 Requires at least: 5.0.0
@@ -11,7 +11,7 @@ License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 == DESCRIPTION ==
-Klarna Shipping Service for WooCommerce is an add-on plugin to Klarna Checkout for WooCommerce. This add-on plugin makes it possible to display shipping options in the KCO iframe provided by your TMS.
+Klarna Shipping Assistant for WooCommerce is an add-on plugin to Klarna Checkout for WooCommerce. This add-on plugin makes it possible to display shipping options in the KCO iframe provided by your TMS.
 
 == Installation ==
 To install this plugin you first need to have Klarna Checkout for WooCommerce installed. You install this plugin just like any other WordPress plugin:

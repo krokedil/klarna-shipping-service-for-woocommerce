@@ -24,9 +24,9 @@ if ( class_exists( 'WC_Shipping_Method' ) ) {
 		public function __construct( $instance_id = 0 ) {
 			$this->id                 = 'klarna_kss';
 			$this->instance_id        = absint( $instance_id );
-			$this->title              = 'Klarna Shipping Service';
-			$this->method_title       = __( 'Klarna Shipping Service', 'klarna-shipping-service-for-woocommerce' );
-			$this->method_description = __( 'Enables Klarna Shipping Service for WooCommerce', 'klarna-shipping-service-for-woocommerce' );
+			$this->title              = 'Klarna Shipping Assistant';
+			$this->method_title       = __( 'Klarna Shipping Assistant', 'klarna-shipping-service-for-woocommerce' );
+			$this->method_description = __( 'Enables Klarna Shipping Assistant for WooCommerce', 'klarna-shipping-service-for-woocommerce' );
 			$this->supports           = array(
 				'shipping-zones',
 				'instance-settings',
@@ -43,9 +43,9 @@ if ( class_exists( 'WC_Shipping_Method' ) ) {
 		public function init_form_fields() {
 			$this->instance_form_fields = array(
 				'title' => array(
-					'title'       => __( 'Klarna Shipping Services', 'klarna-shipping-service-for-woocommerce' ),
+					'title'       => __( 'Klarna Shipping Assistant', 'klarna-shipping-service-for-woocommerce' ),
 					'type'        => 'title',
-					'description' => __( 'There are currently no settings for Klarna Shipping Services since this is controlled by the TMS-provider. If other plugins adds settings, these are shown below.', 'klarna-shipping-service-for-woocommerce' ),
+					'description' => __( 'There are currently no settings for Klarna Shipping Assistant since this is controlled by the TMS-provider. If other plugins adds settings, these are shown below.', 'klarna-shipping-service-for-woocommerce' ),
 				),
 			);
 		}
@@ -70,7 +70,7 @@ if ( class_exists( 'WC_Shipping_Method' ) ) {
 		 * @return void
 		 */
 		public function calculate_shipping( $package = array() ) {
-			$label           = 'Klarna Shipping Service';
+			$label           = 'Klarna Shipping Assistant';
 			$cost            = 0;
 			$klarna_order_id = WC()->session->get( 'kco_wc_order_id' );
 			$shipping_data   = get_transient( 'kss_data_' . $klarna_order_id );
@@ -119,7 +119,7 @@ if ( class_exists( 'WC_Shipping_Method' ) ) {
 		/**
 		 * Returns the WC tax rate id for the price sent by Klarna.
 		 *
-		 * @return void
+		 * @return int
 		 */
 		public function find_tax_rate_id_from_price() {
 			$rate        = ( 0 === $this->kss_total_amount ) ? ( $this->kss_tax_amount / $this->kss_total_amount ) * 100 : 0;

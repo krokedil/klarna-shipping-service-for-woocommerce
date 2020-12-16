@@ -1,8 +1,8 @@
 <?php // phpcs:ignore
 /**
- * Plugin Name: Klarna Shipping Service for WooCommerce
+ * Plugin Name: Klarna Shipping Assistant for WooCommerce
  * Plugin URI: https://krokedil.com/klarna/
- * Description: Klarna Shipping Service for WooCommerce.
+ * Description: Klarna Shipping Assistant for WooCommerce.
  * Author: Krokedil
  * Author URI: https://krokedil.com/
  * Version: 0.2.1
@@ -34,7 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 // Define plugin constants.
-define( 'KLARNA_KSS_VERSION', '0.2.1' );
+define( 'KLARNA_KSS_VERSION', '1.0.0' );
 define( 'KLARNA_KSS_URL', untrailingslashit( plugins_url( '/', __FILE__ ) ) );
 define( 'KLARNA_KSS_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
 
