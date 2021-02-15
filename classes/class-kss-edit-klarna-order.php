@@ -48,12 +48,16 @@ class KSS_Edit_Klarna_Order {
 	 * @return array
 	 */
 	public function remove_shipping( $request_args ) {
-		foreach ( $request_args['order_lines'] as $key => $order_line ) {
-			if ( 'shipping_fee' === $order_line['type'] ) {
-				unset( $request_args['order_lines'][ $key ] );
-				$request_args['order_amount']     = $request_args['order_amount'] - $order_line['unit_price'];
-				$request_args['order_tax_amount'] = $request_args['order_tax_amount'] - $order_line['total_tax_amount'];
+		if ( isset( $request_args['order_lines'] ) ) {
+			foreach ( $request_args['order_lines'] as $key => $order_line ) {
+				if ( 'shipping_fee' === $order_line['type'] ) {
+					unset( $request_args['order_lines'][ $key ] );
+					$request_args['order_amount']     = $request_args['order_amount'] - $order_line['unit_price'];
+					$request_args['order_tax_amount'] = $request_args['order_tax_amount'] - $order_line['total_tax_amount'];
+				}
 			}
+			// Reset the order line keys to prevent malformed json error.
+			$request_args['order_lines'] = array_values( $request_args['order_lines'] );
 		}
 		return $request_args;
 	}
