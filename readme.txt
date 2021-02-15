@@ -2,10 +2,10 @@
 Contributors: krokedil
 Tags: woocommerce, klarna, ecommerce, e-commerce, instant shopping
 Requires at least: 5.0.0
-Tested up to: 5.5.6
+Tested up to: 5.6.1
 Requires PHP: 5.6
 WC requires at least: 3.5.0
-WC tested up to: 4.8.0
+WC tested up to: 5.0.0
 Stable tag: trunk
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -24,6 +24,9 @@ To install this plugin you first need to have Klarna Checkout for WooCommerce in
 More information regarding configuration of this plugin can be found in the documentation here: https://docs.krokedil.com/article/298-klarna-shipping-service-for-woocommerce.
 
 == Changelog ==
+= 2021.02.15    - version 1.0.1 =
+* Fix           - Fixed a bug caused by removing the shipping line from the Klarna order object when having a fee.
+
 = 2020.12.16    - version 1.0.0 =
 * Changed the name of the plugin to Klarna Shipping Assistant.
 * Feature       - Added a feature that adds a tag to the Klarna order when a free shipping coupon is used. This tag is called "ksa_free_shipping" and can be read by the TMS to enable free shipping alternatives.
