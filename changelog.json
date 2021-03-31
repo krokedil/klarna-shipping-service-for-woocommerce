@@ -18,5 +18,10 @@
         "description" : "<ul><li>Fixed a bug caused by removing the shipping line from the Klarna order object when having a fee</li></ul>",
 		"requires" : "4.7.0",
 		"tested" : "5.5"
+    },
+    "1.1.0" : {
+        "description" : "<ul><li>Enhancement - General improvements to the plugin to support the new version of KCO.</li></ul>",
+		"requires" : "4.7.0",
+		"tested" : "5.7"
     }
 }

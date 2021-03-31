@@ -5,7 +5,7 @@
  * Description: Klarna Shipping Assistant for WooCommerce.
  * Author: Krokedil
  * Author URI: https://krokedil.com/
- * Version: 1.0.1
+ * Version: 1.1.0
  * Text Domain: klarna-shipping-service-for-woocommerce
  * Domain Path: /languages
  *
@@ -34,7 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 // Define plugin constants.
-define( 'KLARNA_KSS_VERSION', '1.0.1' );
+define( 'KLARNA_KSS_VERSION', '1.1.0' );
 define( 'KLARNA_KSS_URL', untrailingslashit( plugins_url( '/', __FILE__ ) ) );
 define( 'KLARNA_KSS_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
 
@@ -50,7 +50,7 @@ class Klarna_Shipping_Service_For_WooCommerce {
 		add_action( 'plugins_loaded', array( $this, 'init' ) );
 		add_action( 'plugins_loaded', array( $this, 'check_version' ) );
 		add_action( 'kco_wc_process_payment', array( $this, 'add_shipping_details_to_order' ), 10, 2 );
-		add_action( 'woocommerce_checkout_update_order_review', array( $this, 'clear_shipping_and_recalculate' ) );
+		add_action( 'kco_update_shipping_data', array( $this, 'clear_shipping_and_recalculate' ) );
 		add_filter( 'kco_wc_chosen_shipping_method', array( $this, 'set_shipping_method' ) );
 		add_filter( 'kco_check_if_needs_payment', array( $this, 'change_check_if_needs_payment' ) );
 	}
@@ -121,12 +121,19 @@ class Klarna_Shipping_Service_For_WooCommerce {
 	public function clear_shipping_and_recalculate() {
 		if ( 'kco' === WC()->session->get( 'chosen_payment_method' ) ) {
 			WC()->session->set( 'kco_kss_enabled', true );
-			WC()->session->__unset( 'shipping_for_package_0' );
-			WC()->cart->calculate_shipping();
+			$packages = WC()->cart->get_shipping_packages();
+			foreach ( $packages as $package_key => $package ) {
+				$session_key = 'shipping_for_package_' . $package_key;
+				WC()->session->__unset( $session_key );
+			}
 		} else {
 			if ( null !== WC()->session->get( 'kco_kss_enabled' ) ) {
-				WC()->session->__unset( 'shipping_for_package_0' );
 				WC()->session->__unset( 'kco_kss_enabled' );
+				$packages = WC()->cart->get_shipping_packages();
+				foreach ( $packages as $package_key => $package ) {
+					$session_key = 'shipping_for_package_' . $package_key;
+					WC()->session->__unset( $session_key );
+				}
 			}
 		}
 	}
