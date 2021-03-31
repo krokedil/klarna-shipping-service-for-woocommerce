@@ -24,6 +24,9 @@ To install this plugin you first need to have Klarna Checkout for WooCommerce in
 More information regarding configuration of this plugin can be found in the documentation here: https://docs.krokedil.com/article/298-klarna-shipping-service-for-woocommerce.
 
 == Changelog ==
+= 2021.02.15    - version 1.1.0 =
+* Enhancement   - General improvements to the plugin to support the new version of KCO.
+
 = 2021.02.15    - version 1.0.1 =
 * Fix           - Fixed a bug caused by removing the shipping line from the Klarna order object when having a fee.
 
