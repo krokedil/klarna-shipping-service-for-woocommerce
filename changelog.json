@@ -23,5 +23,10 @@
         "description" : "<ul><li>Enhancement - General improvements to the plugin to support the new version of KCO.</li></ul>",
 		"requires" : "4.7.0",
 		"tested" : "5.7"
+    },
+    "1.1.1" : {
+        "description" : "<ul><li>Fix - Fixed an issue that could cause the wrong tax class name to be displayed to the customer</li></ul>",
+		"requires" : "4.7.0",
+		"tested" : "5.7"
     }
 }

@@ -24,6 +24,9 @@ To install this plugin you first need to have Klarna Checkout for WooCommerce in
 More information regarding configuration of this plugin can be found in the documentation here: https://docs.krokedil.com/article/298-klarna-shipping-service-for-woocommerce.
 
 == Changelog ==
+= 2021.06.02    - version 1.1.1 =
+* Fix           - Fixed an issue that could cause the wrong tax class name to be displayed to the customer.
+
 = 2021.02.15    - version 1.1.0 =
 * Enhancement   - General improvements to the plugin to support the new version of KCO.
 
