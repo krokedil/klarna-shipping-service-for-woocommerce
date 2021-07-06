@@ -157,12 +157,12 @@ class Klarna_Shipping_Service_For_WooCommerce {
 	 * @return void
 	 */
 	public function check_version() {
-		require KLARNA_KSS_PATH . '/includes/plugin_update_check.php';
-		$KernlUpdater = new PluginUpdateChecker_2_0( // phpcs:ignore
+		require KLARNA_KSS_PATH . '/kernl-update-checker/kernl-update-checker.php';
+
+		$update_checker = Puc_v4_Factory::buildUpdateChecker(
 			'https://kernl.us/api/v1/updates/5d55892b8e5ece2071af8e83/',
 			__FILE__,
-			'klarna-shipping-service-for-woocommerce',
-			1
+			'klarna-shipping-service-for-woocommerce'
 		);
 	}
 }
