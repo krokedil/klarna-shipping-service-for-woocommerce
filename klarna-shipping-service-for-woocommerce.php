@@ -84,17 +84,17 @@ class Klarna_Shipping_Service_For_WooCommerce {
 	/**
 	 * Returns the shipping method ID.
 	 *
-	 * @param string $shipping_method WooCommerce shipping method ID.
-	 * @return string The shipping method ID for this shipping method.
+	 * @param array $chosen_shipping_methods WooCommerce shipping method ID.
+	 * @return array The shipping method ID for this shipping method.
 	 */
-	public function set_shipping_method( $shipping_method ) {
+	public function set_shipping_method( $chosen_shipping_methods ) {
 		$shipping_methods = WC()->shipping->get_shipping_methods();
 		// Only do this if we have Klarna KSS active on the store, and the returned shipping method is NOT a real WooCommerce shipping method.
-		if ( isset( $shipping_methods['klarna_kss'] ) && ! isset( $shipping_methods[ $shipping_method[0] ] ) ) {
+		if ( isset( $shipping_methods['klarna_kss'] ) && ! isset( $shipping_methods[ $chosen_shipping_methods[0] ] ) ) {
 			$chosen_shipping_methods[] = 'klarna_kss';
 			return $chosen_shipping_methods;
 		}
-		return $shipping_method;
+		return $chosen_shipping_methods;
 	}
 
 	/**
