@@ -5,7 +5,7 @@
  * Description: Klarna Shipping Assistant for WooCommerce.
  * Author: Krokedil
  * Author URI: https://krokedil.com/
- * Version: 1.1.2
+ * Version: 1.1.3
  * Text Domain: klarna-shipping-service-for-woocommerce
  * Domain Path: /languages
  *
@@ -34,7 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 // Define plugin constants.
-define( 'KLARNA_KSS_VERSION', '1.1.2' );
+define( 'KLARNA_KSS_VERSION', '1.1.3' );
 define( 'KLARNA_KSS_URL', untrailingslashit( plugins_url( '/', __FILE__ ) ) );
 define( 'KLARNA_KSS_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
 
@@ -92,8 +92,7 @@ class Klarna_Shipping_Service_For_WooCommerce {
 		$shipping_methods = WC()->shipping->get_shipping_methods();
 		// Only do this if we have Klarna KSS active on the store, and the returned shipping method is NOT a real WooCommerce shipping method.
 		if ( isset( $shipping_methods['klarna_kss'] ) && ! isset( $shipping_methods[ $chosen_shipping_methods[0] ] ) ) {
-			$chosen_shipping_methods[] = 'klarna_kss';
-			return $chosen_shipping_methods;
+			return array( 'klarna_kss' );
 		}
 		return $chosen_shipping_methods;
 	}
