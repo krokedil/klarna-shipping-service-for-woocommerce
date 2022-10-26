@@ -92,8 +92,7 @@ class Klarna_Shipping_Service_For_WooCommerce {
 		$shipping_methods = WC()->shipping->get_shipping_methods();
 		// Only do this if we have Klarna KSS active on the store, and the returned shipping method is NOT a real WooCommerce shipping method.
 		if ( isset( $shipping_methods['klarna_kss'] ) && ! isset( $shipping_methods[ $chosen_shipping_methods[0] ] ) ) {
-			$chosen_shipping_methods[] = 'klarna_kss';
-			return $chosen_shipping_methods;
+			return array( 'klarna_kss' );
 		}
 		return $chosen_shipping_methods;
 	}
