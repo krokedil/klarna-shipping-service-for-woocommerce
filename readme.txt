@@ -2,10 +2,10 @@
 Contributors: krokedil
 Tags: woocommerce, klarna, ecommerce, e-commerce, instant shopping
 Requires at least: 5.0.0
-Tested up to: 5.6.1
-Requires PHP: 5.6
-WC requires at least: 3.5.0
-WC tested up to: 5.0.0
+Tested up to: 6.1
+Requires PHP: 7.0
+WC requires at least: 4.0.0
+WC tested up to: 7.0.0
 Stable tag: trunk
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -24,6 +24,10 @@ To install this plugin you first need to have Klarna Checkout for WooCommerce in
 More information regarding configuration of this plugin can be found in the documentation here: https://docs.krokedil.com/article/298-klarna-shipping-service-for-woocommerce.
 
 == Changelog ==
+= 2022.10.26    - version 1.1.2 =
+* Enhancement   - The merchant will be notified about detected discrepancies in the total amount in reference to Klarna Checkout.
+* Enhancement   - Modified how we calculate shipping cost and tax to prevent rounding issues.
+
 = 2021.06.02    - version 1.1.1 =
 * Fix           - Fixed an issue that could cause the wrong tax class name to be displayed to the customer.
 

@@ -28,5 +28,10 @@
         "description" : "<ul><li>Fix - Fixed an issue that could cause the wrong tax class name to be displayed to the customer</li></ul>",
 		"requires" : "4.7.0",
 		"tested" : "5.7"
+    },
+    "1.1.2" : {
+        "description" : "<ul><li>Enhancement - The merchant will be notified about detected discrepancies in the total amount in reference to Klarna Checkout.</li><li>Enhancement - Modified how we calculate shipping cost and tax to prevent rounding issues.</li></ul>",
+		"requires" : "4.7.0",
+		"tested" : "6.1"
     }
 }

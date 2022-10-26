@@ -75,8 +75,9 @@ if ( class_exists( 'WC_Shipping_Method' ) ) {
 			$shipping_data   = get_transient( 'kss_data_' . $klarna_order_id );
 			$rate            = array();
 			if ( ! empty( $shipping_data ) ) {
-				$label                  = $shipping_data['name'];
-				$cost                   = floatval( $shipping_data['price'] - $shipping_data['tax_amount'] ) / 100;
+				$label = $shipping_data['name'];
+				// To prevent rounding issues from Klarna sending us a max of 2 decimals, we need to calculate the actual tax cost and subtract that from the total.
+				$cost                   = floatval( round( $shipping_data['price'] / ( 1 + ( $shipping_data['tax_rate'] / 10000 ) ), 2 ) ) / 100;
 				$tax_amount             = floatval( $shipping_data['tax_amount'] ) / 100;
 				$this->kss_tax_amount   = $tax_amount;
 				$this->kss_total_amount = $cost;

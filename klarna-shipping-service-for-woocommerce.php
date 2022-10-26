@@ -5,12 +5,12 @@
  * Description: Klarna Shipping Assistant for WooCommerce.
  * Author: Krokedil
  * Author URI: https://krokedil.com/
- * Version: 1.1.1
+ * Version: 1.1.2
  * Text Domain: klarna-shipping-service-for-woocommerce
  * Domain Path: /languages
  *
  * WC requires at least: 3.8
- * WC tested up to: 5.3.0
+ * WC tested up to: 7.0.0
  *
  * Copyright (c) 2017-2021 Krokedil
  *
@@ -34,7 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 // Define plugin constants.
-define( 'KLARNA_KSS_VERSION', '1.1.1' );
+define( 'KLARNA_KSS_VERSION', '1.1.2' );
 define( 'KLARNA_KSS_URL', untrailingslashit( plugins_url( '/', __FILE__ ) ) );
 define( 'KLARNA_KSS_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
 
@@ -79,22 +79,23 @@ class Klarna_Shipping_Service_For_WooCommerce {
 		include_once KLARNA_KSS_PATH . '/classes/class-kss-order-lines.php';
 		include_once KLARNA_KSS_PATH . '/classes/class-kss-free-orders.php';
 		include_once KLARNA_KSS_PATH . '/classes/class-kss-edit-klarna-order.php';
+		include_once KLARNA_KSS_PATH . '/classes/class-kss-compare-totals.php';
 	}
 
 	/**
 	 * Returns the shipping method ID.
 	 *
-	 * @param string $shipping_method WooCommerce shipping method ID.
-	 * @return string The shipping method ID for this shipping method.
+	 * @param array $chosen_shipping_methods WooCommerce shipping method ID.
+	 * @return array The shipping method ID for this shipping method.
 	 */
-	public function set_shipping_method( $shipping_method ) {
+	public function set_shipping_method( $chosen_shipping_methods ) {
 		$shipping_methods = WC()->shipping->get_shipping_methods();
 		// Only do this if we have Klarna KSS active on the store, and the returned shipping method is NOT a real WooCommerce shipping method.
-		if ( isset( $shipping_methods['klarna_kss'] ) && ! isset( $shipping_methods[ $shipping_method[0] ] ) ) {
+		if ( isset( $shipping_methods['klarna_kss'] ) && ! isset( $shipping_methods[ $chosen_shipping_methods[0] ] ) ) {
 			$chosen_shipping_methods[] = 'klarna_kss';
 			return $chosen_shipping_methods;
 		}
-		return $shipping_method;
+		return $chosen_shipping_methods;
 	}
 
 	/**
@@ -157,12 +158,12 @@ class Klarna_Shipping_Service_For_WooCommerce {
 	 * @return void
 	 */
 	public function check_version() {
-		require KLARNA_KSS_PATH . '/includes/plugin_update_check.php';
-		$KernlUpdater = new PluginUpdateChecker_2_0( // phpcs:ignore
+		require KLARNA_KSS_PATH . '/kernl-update-checker/kernl-update-checker.php';
+
+		$update_checker = Puc_v4_Factory::buildUpdateChecker(
 			'https://kernl.us/api/v1/updates/5d55892b8e5ece2071af8e83/',
 			__FILE__,
-			'klarna-shipping-service-for-woocommerce',
-			1
+			'klarna-shipping-service-for-woocommerce'
 		);
 	}
 }
