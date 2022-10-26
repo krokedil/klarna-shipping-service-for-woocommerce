@@ -33,5 +33,10 @@
         "description" : "<ul><li>Enhancement - The merchant will be notified about detected discrepancies in the total amount in reference to Klarna Checkout.</li><li>Enhancement - Modified how we calculate shipping cost and tax to prevent rounding issues.</li></ul>",
 		"requires" : "4.7.0",
 		"tested" : "6.1"
+    },
+    "1.1.3" : {
+        "description" : "<ul><li>Fix - Fixed an issue where shipping method changes were detected incorrectly.</li></ul>",
+		"requires" : "4.7.0",
+		"tested" : "6.1"
     }
 }
