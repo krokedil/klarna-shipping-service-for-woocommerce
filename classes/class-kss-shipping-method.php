@@ -75,7 +75,7 @@ if ( class_exists( 'WC_Shipping_Method' ) ) {
 			$shipping_data   = get_transient( 'kss_data_' . $klarna_order_id );
 			$rate            = array();
 			if ( ! empty( $shipping_data ) ) {
-				if ( 'digital' === strtolower( $shipping_data['shipping_method'] ) ) {
+				if ( isset( $shipping_data['shipping_method'] ) && 'digital' === strtolower( $shipping_data['shipping_method'] ) ) {
 					add_filter( 'woocommerce_cart_needs_shipping', '__return_false' );
 					return;
 				}
