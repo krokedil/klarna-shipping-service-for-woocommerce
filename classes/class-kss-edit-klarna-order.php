@@ -50,7 +50,7 @@ class KSS_Edit_Klarna_Order {
 	public function remove_shipping( $request_args ) {
 		if ( isset( $request_args['order_lines'] ) ) {
 			foreach ( $request_args['order_lines'] as $key => $order_line ) {
-				if ( 'shipping_fee' === $order_line['type'] ) {
+				if ( isset( $order_line['type'] ) && 'shipping_fee' === $order_line['type'] ) {
 					unset( $request_args['order_lines'][ $key ] );
 					$request_args['order_amount']     = $request_args['order_amount'] - $order_line['unit_price'];
 					$request_args['order_tax_amount'] = $request_args['order_tax_amount'] - $order_line['total_tax_amount'];
