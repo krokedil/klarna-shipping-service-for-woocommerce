@@ -38,5 +38,10 @@
         "description" : "<ul><li>Fix - Fixed an issue where shipping method changes were detected incorrectly.</li></ul>",
 		"requires" : "4.7.0",
 		"tested" : "6.1"
+    },
+    "1.1.4" : {
+        "description" : "<ul><li>Tweak - The shipping package will no longer be created if the cart does not need shipping (contains only digital products). Fixes the 'merchant-aggregator' shipping method.</li><li>Tweak - When creating the shipping package, the currency will now be passed along to prevent double-conversion that is caused by some currency switchers.</li><li>Fixed undefined index notice.</li></ul>",
+		"requires" : "4.7.0",
+		"tested" : "6.1.1"
     }
 }

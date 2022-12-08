@@ -2,10 +2,10 @@
 Contributors: krokedil
 Tags: woocommerce, klarna, ecommerce, e-commerce, instant shopping
 Requires at least: 5.0.0
-Tested up to: 6.1
+Tested up to: 6.1.1
 Requires PHP: 7.0
 WC requires at least: 4.0.0
-WC tested up to: 7.1.0
+WC tested up to: 7.2.0
 Stable tag: trunk
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -24,6 +24,11 @@ To install this plugin you first need to have Klarna Checkout for WooCommerce in
 More information regarding configuration of this plugin can be found in the documentation here: https://docs.krokedil.com/article/298-klarna-shipping-service-for-woocommerce.
 
 == Changelog ==
+= 2022.12.08    - version 1.1.4 =
+* Tweak         - The shipping package will no longer be created if the cart does not need shipping (contains only digital products). Fixes the "merchant-aggregator" shipping method.
+* Tweak         - When creating the shipping package, the currency will now be passed along to prevent double-conversion that is caused by some currency switchers.
+* Fix           - Fixed undefined index notice.
+
 = 2022.10.26    - version 1.1.3 =
 * Fix           - Fixed an issue where shipping method changes were detected incorrectly.
 
