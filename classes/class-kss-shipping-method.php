@@ -75,6 +75,11 @@ if ( class_exists( 'WC_Shipping_Method' ) ) {
 			$shipping_data   = get_transient( 'kss_data_' . $klarna_order_id );
 			$rate            = array();
 			if ( ! empty( $shipping_data ) ) {
+				if ( isset( $shipping_data['shipping_method'] ) && 'digital' === strtolower( $shipping_data['shipping_method'] ) ) {
+					add_filter( 'woocommerce_cart_needs_shipping', '__return_false' );
+					return;
+				}
+
 				$label = $shipping_data['name'];
 				// To prevent rounding issues from Klarna sending us a max of 2 decimals, we need to calculate the actual tax cost and subtract that from the total.
 				$cost                   = floatval( round( $shipping_data['price'] / ( 1 + ( $shipping_data['tax_rate'] / 10000 ) ), 2 ) ) / 100;
@@ -86,6 +91,13 @@ if ( class_exists( 'WC_Shipping_Method' ) ) {
 					'label' => $label,
 					'cost'  => $cost,
 				);
+
+				/* Klarna already converts the shipping cost to the purchase currency. To avoid double-conversion, we must pass the currency onto the currency switchers. */
+				if ( isset( $shipping_data['currency'] ) ) {
+					$rate['meta_data'] = array(
+						'currency' => $shipping_data['currency'],
+					);
+				}
 			}
 			$this->add_rate( $rate );
 		}
