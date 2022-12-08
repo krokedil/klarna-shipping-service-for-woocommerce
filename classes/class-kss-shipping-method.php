@@ -91,6 +91,13 @@ if ( class_exists( 'WC_Shipping_Method' ) ) {
 					'label' => $label,
 					'cost'  => $cost,
 				);
+
+				/* Klarna already converts the shipping cost to the purchase currency. To avoid double-conversion, we must pass the currency onto the currency switchers. */
+				if ( isset( $shipping_data['currency'] ) ) {
+					$rate['meta_data'] = array(
+						'currency' => $shipping_data['currency'],
+					);
+				}
 			}
 			$this->add_rate( $rate );
 		}
