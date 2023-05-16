@@ -97,6 +97,12 @@ if ( class_exists( 'WC_Shipping_Method' ) ) {
 					$rate['meta_data'] = array(
 						'currency' => $shipping_data['currency'],
 					);
+
+					/* WPML do not respect the meta data currency property. */
+					global $woocommerce_wpml;
+					if ( isset( $woocommerce_wpml ) && $woocommerce_wpml->settings['enable_multi_currency'] == WCML_MULTI_CURRENCIES_INDEPENDENT ) {
+						$rate['cost'] = $woocommerce_wpml->multi_currency->prices->unconvert_price_amount( $rate['cost'], $shipping_data['currency'] );
+					}
 				}
 			}
 			$this->add_rate( $rate );
