@@ -43,5 +43,10 @@
         "description" : "<ul><li>Tweak - The shipping package will no longer be created if the cart does not need shipping (contains only digital products). Fixes the 'merchant-aggregator' shipping method.</li><li>Tweak - When creating the shipping package, the currency will now be passed along to prevent double-conversion that is caused by some currency switchers.</li><li>Fixed undefined index notice.</li></ul>",
 		"requires" : "4.7.0",
 		"tested" : "6.1.1"
+    },
+    "1.1.5" : {
+        "description" : "<ul><li>Fix - We have resolved an issue where, if WPML's automatic currency switcher was enabled and the currency differed from the store's default currency, the shipping cost would be converted twice. As a result, there was a mismatch between WooCommerce and Klarna.</li><li>Enhancement - Additional translatable labels.</li></ul>",
+		"requires" : "4.7.0",
+		"tested" : "6.1.1"
     }
 }

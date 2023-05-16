@@ -24,6 +24,10 @@ To install this plugin you first need to have Klarna Checkout for WooCommerce in
 More information regarding configuration of this plugin can be found in the documentation here: https://docs.krokedil.com/article/298-klarna-shipping-service-for-woocommerce.
 
 == Changelog ==
+= 2023.05.16    - version 1.1.5 =
+* Fix           - We have resolved an issue where, if WPML's automatic currency switcher was enabled and the currency differed from the store's default currency, the shipping cost would be converted twice. As a result, there was a mismatch between WooCommerce and Klarna.
+* Enhancement   - Additional translatable labels.
+
 = 2022.12.08    - version 1.1.4 =
 * Tweak         - The shipping package will no longer be created if the cart does not need shipping (contains only digital products). Fixes the "merchant-aggregator" shipping method.
 * Tweak         - When creating the shipping package, the currency will now be passed along to prevent double-conversion that is caused by some currency switchers.
