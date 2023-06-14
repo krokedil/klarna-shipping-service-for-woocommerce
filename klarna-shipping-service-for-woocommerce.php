@@ -62,6 +62,20 @@ class Klarna_Shipping_Service_For_WooCommerce {
 	 */
 	public function init() {
 		$this->include_files();
+
+		add_action( 'before_woocommerce_init', array( $this, 'declare_wc_compatability' ) );
+	}
+
+	/**
+	 * Declare compatibility with WooCommerce features.
+	 *
+	 * @return void
+	 */
+	public function declare_wc_compatability() {
+		// Declare HPOS compatibility.
+		if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
+			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
+		}
 	}
 
 	/**
@@ -106,9 +120,12 @@ class Klarna_Shipping_Service_For_WooCommerce {
 	 */
 	public function add_shipping_details_to_order( $order_id, $klarna_order ) {
 		if ( isset( $klarna_order['selected_shipping_option'] ) ) {
+			$order = wc_get_order( $order_id );
+
 			$shipping_details = $klarna_order['selected_shipping_option'];
-			update_post_meta( $order_id, '_kco_kss_data', wp_json_encode( $shipping_details, JSON_UNESCAPED_UNICODE ) );
-			update_post_meta( $order_id, '_kco_kss_reference', $shipping_details['tms_reference'] );
+			$order->update_meta_data( '_kco_kss_data', wp_json_encode( $shipping_details, JSON_UNESCAPED_UNICODE ) );
+			$order->update_meta_data( '_kco_kss_reference', $shipping_details['tms_reference'] );
+			$order->save();
 			WC()->session->__unset( 'kco_kss_enabled' );
 		}
 	}
