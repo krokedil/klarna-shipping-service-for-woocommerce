@@ -5,14 +5,14 @@
  * Description: Klarna Shipping Assistant for WooCommerce.
  * Author: Krokedil
  * Author URI: https://krokedil.com/
- * Version: 1.1.5
+ * Version: 1.2.0
  * Text Domain: klarna-shipping-service-for-woocommerce
  * Domain Path: /languages
  *
  * WC requires at least: 3.8
- * WC tested up to: 7.3.0
+ * WC tested up to: 7.7.0
  *
- * Copyright (c) 2017-2021 Krokedil
+ * Copyright (c) 2017-2023 Krokedil
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 // Define plugin constants.
-define( 'KLARNA_KSS_VERSION', '1.1.5' );
+define( 'KLARNA_KSS_VERSION', '1.2.0' );
 define( 'KLARNA_KSS_URL', untrailingslashit( plugins_url( '/', __FILE__ ) ) );
 define( 'KLARNA_KSS_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
 
@@ -62,6 +62,20 @@ class Klarna_Shipping_Service_For_WooCommerce {
 	 */
 	public function init() {
 		$this->include_files();
+
+		add_action( 'before_woocommerce_init', array( $this, 'declare_wc_compatability' ) );
+	}
+
+	/**
+	 * Declare compatibility with WooCommerce features.
+	 *
+	 * @return void
+	 */
+	public function declare_wc_compatability() {
+		// Declare HPOS compatibility.
+		if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
+			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
+		}
 	}
 
 	/**
@@ -106,9 +120,12 @@ class Klarna_Shipping_Service_For_WooCommerce {
 	 */
 	public function add_shipping_details_to_order( $order_id, $klarna_order ) {
 		if ( isset( $klarna_order['selected_shipping_option'] ) ) {
+			$order = wc_get_order( $order_id );
+
 			$shipping_details = $klarna_order['selected_shipping_option'];
-			update_post_meta( $order_id, '_kco_kss_data', wp_json_encode( $shipping_details, JSON_UNESCAPED_UNICODE ) );
-			update_post_meta( $order_id, '_kco_kss_reference', $shipping_details['tms_reference'] );
+			$order->update_meta_data( '_kco_kss_data', wp_json_encode( $shipping_details, JSON_UNESCAPED_UNICODE ) );
+			$order->update_meta_data( '_kco_kss_reference', $shipping_details['tms_reference'] );
+			$order->save();
 			WC()->session->__unset( 'kco_kss_enabled' );
 		}
 	}

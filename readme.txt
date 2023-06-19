@@ -2,10 +2,10 @@
 Contributors: krokedil
 Tags: woocommerce, klarna, ecommerce, e-commerce, instant shopping
 Requires at least: 5.0.0
-Tested up to: 6.1.1
+Tested up to: 6.2.1
 Requires PHP: 7.0
 WC requires at least: 4.0.0
-WC tested up to: 7.3.0
+WC tested up to: 7.7.0
 Stable tag: trunk
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -24,6 +24,9 @@ To install this plugin you first need to have Klarna Checkout for WooCommerce in
 More information regarding configuration of this plugin can be found in the documentation here: https://docs.krokedil.com/article/298-klarna-shipping-service-for-woocommerce.
 
 == Changelog ==
+= 2023.06.19    - version 1.2.0 =
+* Feature       - The plugin now supports WooCommerce's "High-Performance Order Storage" ("HPOS") feature.
+
 = 2023.05.16    - version 1.1.5 =
 * Fix           - We have resolved an issue where, if WPML's automatic currency switcher was enabled and the currency differed from the store's default currency, the shipping cost would be converted twice. As a result, there was a mismatch between WooCommerce and Klarna.
 * Enhancement   - Additional translatable labels.

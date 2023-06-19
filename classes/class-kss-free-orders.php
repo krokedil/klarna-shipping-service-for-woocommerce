@@ -68,31 +68,33 @@ class KSS_Free_Orders {
 		}
 
 		if ( $order_id && $klarna_order ) {
+			$order = wc_get_order( $order_id );
 
 			// Set WC order transaction ID.
-			update_post_meta( $order_id, '_wc_klarna_order_id', sanitize_key( $klarna_order['order_id'] ) );
+			$order->update_meta_data( '_wc_klarna_order_id', sanitize_key( $klarna_order['order_id'] ) );
 
-			update_post_meta( $order_id, '_transaction_id', sanitize_key( $klarna_order['order_id'] ) );
+			$order->update_meta_data( '_transaction_id', sanitize_key( $klarna_order['order_id'] ) );
 
 			$environment = $this->testmode ? 'test' : 'live';
-			update_post_meta( $order_id, '_wc_klarna_environment', $environment );
+			$order->update_meta_data( '_wc_klarna_environment', $environment );
 
 			$klarna_country = wc_get_base_location()['country'];
-			update_post_meta( $order_id, '_wc_klarna_country', $klarna_country );
+			$order->update_meta_data( '_wc_klarna_country', $klarna_country );
 
 			// Set shipping phone and email.
-			update_post_meta( $order_id, '_shipping_phone', sanitize_text_field( $klarna_order['shipping_address']['phone'] ) );
-			update_post_meta( $order_id, '_shipping_email', sanitize_text_field( $klarna_order['shipping_address']['email'] ) );
+			$order->update_meta_data( '_shipping_phone', sanitize_text_field( $klarna_order['shipping_address']['phone'] ) );
+			$order->update_meta_data( '_shipping_email', sanitize_text_field( $klarna_order['shipping_address']['email'] ) );
+
+			$order->save();
 
 			// Update the order with new confirmation page url.
 			$klarna_order = KCO_WC()->api->update_klarna_order( $klarna_order_id, $order_id );
 
-			$order->save();
 			// Let other plugins hook into this sequence.
 			do_action( 'kco_wc_process_payment', $order_id, $klarna_order );
 
 			// Check that the transaction id got set correctly.
-			if ( get_post_meta( $order_id, '_transaction_id', true ) === $klarna_order_id ) {
+			if ( $order->get_meta( '_transaction_id', true ) === $klarna_order_id ) {
 				return true;
 			}
 		}

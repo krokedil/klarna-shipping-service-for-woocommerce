@@ -1,52 +1,57 @@
 {
-    "0.2.0" : {
-        "description" : "<ul><li>Enhancement - Display KCO checkout even if order total is 0. This is needed to save tms data correctly in Woo order.</li></ul>",
-		"requires" : "4.7.0",
-		"tested" : "5.5"
+    "0.2.0": {
+        "description": "<ul><li>Enhancement - Display KCO checkout even if order total is 0. This is needed to save tms data correctly in Woo order.</li></ul>",
+        "requires": "4.7.0",
+        "tested": "5.5"
     },
-    "0.2.1" : {
-        "description" : "<ul><li>Fix - Save Klarna data in Woo order and reply to JS validation event even for 0 value orders.</li></ul>",
-		"requires" : "4.7.0",
-		"tested" : "5.5"
+    "0.2.1": {
+        "description": "<ul><li>Fix - Save Klarna data in Woo order and reply to JS validation event even for 0 value orders.</li></ul>",
+        "requires": "4.7.0",
+        "tested": "5.5"
     },
-    "1.0.0" : {
-        "description" : "<ul><li>Changed the name of the plugin to Klarna Shipping Assistant.</li><li>Feature - Added a feature that adds a tag to the Klarna order when a free shipping coupon is used. This tag is called 'ksa_free_shipping' and can be read by the TMS to enable free shipping alternatives.</li><li>Feature - Added product shipping classes as tags to the Klarna order items. These tags can be read by the TMS system to change what shipping methods should be available.</li><li>Feature - Replace the shipping calculation on the cart page with a standard display for Klarna Shipping Assistant. It will either show the KSA shipping information if it exists, or it will tell the customer that shipping is calculated on the checkout page.</li><li>Enhancement - Improved the speed and reliability of the checkout process when using Klarna Shipping Assistant. These changes requires you to use this plugin along with Klarna Checkout for WooCommerce version 2.4.1 or newer. Older versions will no longer work.</li></ul>",
-		"requires" : "4.7.0",
-		"tested" : "5.5"
+    "1.0.0": {
+        "description": "<ul><li>Changed the name of the plugin to Klarna Shipping Assistant.</li><li>Feature - Added a feature that adds a tag to the Klarna order when a free shipping coupon is used. This tag is called 'ksa_free_shipping' and can be read by the TMS to enable free shipping alternatives.</li><li>Feature - Added product shipping classes as tags to the Klarna order items. These tags can be read by the TMS system to change what shipping methods should be available.</li><li>Feature - Replace the shipping calculation on the cart page with a standard display for Klarna Shipping Assistant. It will either show the KSA shipping information if it exists, or it will tell the customer that shipping is calculated on the checkout page.</li><li>Enhancement - Improved the speed and reliability of the checkout process when using Klarna Shipping Assistant. These changes requires you to use this plugin along with Klarna Checkout for WooCommerce version 2.4.1 or newer. Older versions will no longer work.</li></ul>",
+        "requires": "4.7.0",
+        "tested": "5.5"
     },
-    "1.0.1" : {
-        "description" : "<ul><li>Fixed a bug caused by removing the shipping line from the Klarna order object when having a fee</li></ul>",
-		"requires" : "4.7.0",
-		"tested" : "5.5"
+    "1.0.1": {
+        "description": "<ul><li>Fixed a bug caused by removing the shipping line from the Klarna order object when having a fee</li></ul>",
+        "requires": "4.7.0",
+        "tested": "5.5"
     },
-    "1.1.0" : {
-        "description" : "<ul><li>Enhancement - General improvements to the plugin to support the new version of KCO.</li></ul>",
-		"requires" : "4.7.0",
-		"tested" : "5.7"
+    "1.1.0": {
+        "description": "<ul><li>Enhancement - General improvements to the plugin to support the new version of KCO.</li></ul>",
+        "requires": "4.7.0",
+        "tested": "5.7"
     },
-    "1.1.1" : {
-        "description" : "<ul><li>Fix - Fixed an issue that could cause the wrong tax class name to be displayed to the customer</li></ul>",
-		"requires" : "4.7.0",
-		"tested" : "5.7"
+    "1.1.1": {
+        "description": "<ul><li>Fix - Fixed an issue that could cause the wrong tax class name to be displayed to the customer</li></ul>",
+        "requires": "4.7.0",
+        "tested": "5.7"
     },
-    "1.1.2" : {
-        "description" : "<ul><li>Enhancement - The merchant will be notified about detected discrepancies in the total amount in reference to Klarna Checkout.</li><li>Enhancement - Modified how we calculate shipping cost and tax to prevent rounding issues.</li></ul>",
-		"requires" : "4.7.0",
-		"tested" : "6.1"
+    "1.1.2": {
+        "description": "<ul><li>Enhancement - The merchant will be notified about detected discrepancies in the total amount in reference to Klarna Checkout.</li><li>Enhancement - Modified how we calculate shipping cost and tax to prevent rounding issues.</li></ul>",
+        "requires": "4.7.0",
+        "tested": "6.1"
     },
-    "1.1.3" : {
-        "description" : "<ul><li>Fix - Fixed an issue where shipping method changes were detected incorrectly.</li></ul>",
-		"requires" : "4.7.0",
-		"tested" : "6.1"
+    "1.1.3": {
+        "description": "<ul><li>Fix - Fixed an issue where shipping method changes were detected incorrectly.</li></ul>",
+        "requires": "4.7.0",
+        "tested": "6.1"
     },
-    "1.1.4" : {
-        "description" : "<ul><li>Tweak - The shipping package will no longer be created if the cart does not need shipping (contains only digital products). Fixes the 'merchant-aggregator' shipping method.</li><li>Tweak - When creating the shipping package, the currency will now be passed along to prevent double-conversion that is caused by some currency switchers.</li><li>Fixed undefined index notice.</li></ul>",
-		"requires" : "4.7.0",
-		"tested" : "6.1.1"
+    "1.1.4": {
+        "description": "<ul><li>Tweak - The shipping package will no longer be created if the cart does not need shipping (contains only digital products). Fixes the 'merchant-aggregator' shipping method.</li><li>Tweak - When creating the shipping package, the currency will now be passed along to prevent double-conversion that is caused by some currency switchers.</li><li>Fixed undefined index notice.</li></ul>",
+        "requires": "4.7.0",
+        "tested": "6.1.1"
     },
-    "1.1.5" : {
-        "description" : "<ul><li>Fix - We have resolved an issue where, if WPML's automatic currency switcher was enabled and the currency differed from the store's default currency, the shipping cost would be converted twice. As a result, there was a mismatch between WooCommerce and Klarna.</li><li>Enhancement - Additional translatable labels.</li></ul>",
-		"requires" : "4.7.0",
-		"tested" : "6.1.1"
+    "1.1.5": {
+        "description": "<ul><li>Fix - We have resolved an issue where, if WPML's automatic currency switcher was enabled and the currency differed from the store's default currency, the shipping cost would be converted twice. As a result, there was a mismatch between WooCommerce and Klarna.</li><li>Enhancement - Additional translatable labels.</li></ul>",
+        "requires": "4.7.0",
+        "tested": "6.1.1"
+    },
+    "1.2.0": {
+        "description": "<ul><li>Feature - The plugin now supports WooCommerce's \"High-Performance Order Storage\" (\"HPOS\") feature.</li></ul>",
+        "requires": "4.7.0",
+        "tested": "6.2.1"
     }
 }
