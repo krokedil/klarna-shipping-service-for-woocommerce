@@ -2,10 +2,10 @@
 Contributors: krokedil
 Tags: woocommerce, klarna, ecommerce, e-commerce, instant shopping
 Requires at least: 5.0.0
-Tested up to: 6.3
+Tested up to: 6.3.1
 Requires PHP: 7.0
 WC requires at least: 4.0.0
-WC tested up to: 8.0.1
+WC tested up to: 8.1.0
 Stable tag: trunk
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html

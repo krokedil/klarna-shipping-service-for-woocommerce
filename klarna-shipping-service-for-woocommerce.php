@@ -10,7 +10,7 @@
  * Domain Path: /languages
  *
  * WC requires at least: 3.8
- * WC tested up to: 8.0.1
+ * WC tested up to: 8.1.0
  *
  * Copyright (c) 2017-2023 Krokedil
  *
