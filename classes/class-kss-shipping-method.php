@@ -105,7 +105,7 @@ if ( class_exists( 'WC_Shipping_Method' ) ) {
 					}
 				}
 			}
-			$this->add_rate( $rate );
+			$this->add_rate( apply_filters( 'klarna_kss_shipping_method_add_rate', $rate ) );
 		}
 	}
 
