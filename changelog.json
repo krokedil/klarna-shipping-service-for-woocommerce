@@ -53,5 +53,10 @@
         "description": "<ul><li>Feature - The plugin now supports WooCommerce's \"High-Performance Order Storage\" (\"HPOS\") feature.</li></ul>",
         "requires": "4.7.0",
         "tested": "6.2.1"
+    },
+    "1.2.1": {
+        "description": "<ul><li>Enhancement - Add a filter 'klarna_kss_shipping_method_add_rate' for the calculated shipping rate.</li></ul>",
+        "requires": "4.7.0",
+        "tested": "6.4.3"
     }
 }
