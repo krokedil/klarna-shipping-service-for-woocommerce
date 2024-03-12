@@ -17,6 +17,27 @@ if ( class_exists( 'WC_Shipping_Method' ) ) {
 	class KSS_Shipping_Method extends WC_Shipping_Method {
 
 		/**
+		 * Total amount for the shipping from Klarna.
+		 *
+		 * @var float
+		 */
+		public $kss_total_amount;
+
+		/**
+		 * Total tax amount for the shipping from Klarna.
+		 *
+		 * @var float
+		 */
+		public $kss_tax_amount;
+
+		/**
+		 * Tax rate for the shipping from Klarna.
+		 *
+		 * @var float
+		 */
+		public $kss_tax_rate;
+
+		/**
 		 * Class constructor.
 		 *
 		 * @param integer $instance_id The instance id.
@@ -35,6 +56,8 @@ if ( class_exists( 'WC_Shipping_Method' ) ) {
 			$this->kss_tax_amount     = false;
 			$this->init_form_fields();
 			$this->init_settings();
+
+			add_filter( 'woocommerce_calc_shipping_tax', array( $this, 'maybe_override_shipping_tax' ), 999, 3 );
 		}
 		/**
 		 * Init form fields.
@@ -80,16 +103,22 @@ if ( class_exists( 'WC_Shipping_Method' ) ) {
 					return;
 				}
 
-				$label = $shipping_data['name'];
+				$label = $shipping_data['name'] ?? $label;
+
 				// To prevent rounding issues from Klarna sending us a max of 2 decimals, we need to calculate the actual tax cost and subtract that from the total.
-				$cost                   = floatval( round( $shipping_data['price'] / ( 1 + ( $shipping_data['tax_rate'] / 10000 ) ), 2 ) ) / 100;
-				$tax_amount             = floatval( $shipping_data['tax_amount'] ) / 100;
-				$this->kss_tax_amount   = $tax_amount;
-				$this->kss_total_amount = $cost;
-				$rate                   = array(
-					'id'    => $this->get_rate_id(),
-					'label' => $label,
-					'cost'  => $cost,
+				$this->kss_tax_amount   = round( $shipping_data['tax_amount'] / 100, 2 );
+				$this->kss_tax_rate     = $shipping_data['tax_rate'] / 100;
+				$this->kss_total_amount = round( $shipping_data['price'] / 100, 2 );
+
+				$shipping_tax = WC_Tax::calc_shipping_tax( $this->kss_total_amount, WC_Tax::get_shipping_tax_rates() );
+				$cost         = $this->kss_total_amount - array_sum( $shipping_tax );
+
+				$rate = array(
+					'id'       => $this->get_rate_id(),
+					'label'    => $label,
+					'cost'     => $cost,
+					'taxes'    => $shipping_tax,
+					'calc_tax' => 'per_order',
 				);
 
 				/* Klarna already converts the shipping cost to the purchase currency. To avoid double-conversion, we must pass the currency onto the currency switchers. */
@@ -106,6 +135,25 @@ if ( class_exists( 'WC_Shipping_Method' ) ) {
 				}
 			}
 			$this->add_rate( apply_filters( 'klarna_kss_shipping_method_add_rate', $rate ) );
+		}
+
+		/**
+		 * Maybe override the shipping tax from the WooCommerce calculations.
+		 *
+		 * @param array $taxes The calculated taxes.
+		 * @param float $price The price.
+		 * @param array $rates The tax rates.
+		 *
+		 * @return array
+		 */
+		public function maybe_override_shipping_tax( $taxes, $price, $rates ) {
+			// Replace the value of the first tax with the value from Klarna, and keep the same key.
+			if ( $this->kss_tax_amount ) {
+				$taxes[ key( $taxes ) ] = $this->kss_tax_amount;
+			}
+
+			// Return an array with the first tax rate as key and the tax amount as value.
+			return $taxes;
 		}
 	}
 
