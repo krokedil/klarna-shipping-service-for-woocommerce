@@ -44,6 +44,13 @@ define( 'KLARNA_KSS_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
 class Klarna_Shipping_Service_For_WooCommerce {
 
 	/**
+	 * Order management class.
+	 *
+	 * @var KSS_Order_Management
+	 */
+	public $order_management;
+
+	/**
 	 * Class constructor.
 	 */
 	public function __construct() {
@@ -64,6 +71,8 @@ class Klarna_Shipping_Service_For_WooCommerce {
 		$this->include_files();
 
 		add_action( 'before_woocommerce_init', array( $this, 'declare_wc_compatability' ) );
+
+		$this->order_management = new KSS_Order_Management();
 	}
 
 	/**
@@ -94,6 +103,7 @@ class Klarna_Shipping_Service_For_WooCommerce {
 		include_once KLARNA_KSS_PATH . '/classes/class-kss-free-orders.php';
 		include_once KLARNA_KSS_PATH . '/classes/class-kss-edit-klarna-order.php';
 		include_once KLARNA_KSS_PATH . '/classes/class-kss-compare-totals.php';
+		include_once KLARNA_KSS_PATH . '/classes/class-kss-order-management.php';
 	}
 
 	/**
@@ -143,14 +153,12 @@ class Klarna_Shipping_Service_For_WooCommerce {
 				$session_key = 'shipping_for_package_' . $package_key;
 				WC()->session->__unset( $session_key );
 			}
-		} else {
-			if ( null !== WC()->session->get( 'kco_kss_enabled' ) ) {
+		} elseif ( null !== WC()->session->get( 'kco_kss_enabled' ) ) {
 				WC()->session->__unset( 'kco_kss_enabled' );
 				$packages = WC()->cart->get_shipping_packages();
-				foreach ( $packages as $package_key => $package ) {
-					$session_key = 'shipping_for_package_' . $package_key;
-					WC()->session->__unset( $session_key );
-				}
+			foreach ( $packages as $package_key => $package ) {
+				$session_key = 'shipping_for_package_' . $package_key;
+				WC()->session->__unset( $session_key );
 			}
 		}
 	}
@@ -164,7 +172,7 @@ class Klarna_Shipping_Service_For_WooCommerce {
 	 * @return bool
 	 */
 	public function change_check_if_needs_payment( $bool ) {
-		// Allways return false. We want to display the KCO iframe even if order total is 0.
+		// Always return false. We want to display the KCO iframe even if order total is 0.
 		return false;
 	}
 
