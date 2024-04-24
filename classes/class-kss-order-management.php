@@ -37,6 +37,10 @@ class KSS_Order_Management {
 
 		$order = $item->get_order();
 
+		if ( ! $order ) {
+			return;
+		}
+
 		// Get the KSS data from the orders meta data.
 		$kss_data = json_decode( $order->get_meta( '_kco_kss_data' ), true );
 
