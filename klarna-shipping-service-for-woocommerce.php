@@ -10,7 +10,7 @@
  * Domain Path: /languages
  *
  * WC requires at least: 3.8
- * WC tested up to: 8.7.0
+ * WC tested up to: 8.8.3
  *
  * Copyright (c) 2017-2024 Krokedil
  *
@@ -143,14 +143,12 @@ class Klarna_Shipping_Service_For_WooCommerce {
 				$session_key = 'shipping_for_package_' . $package_key;
 				WC()->session->__unset( $session_key );
 			}
-		} else {
-			if ( null !== WC()->session->get( 'kco_kss_enabled' ) ) {
+		} elseif ( null !== WC()->session->get( 'kco_kss_enabled' ) ) {
 				WC()->session->__unset( 'kco_kss_enabled' );
 				$packages = WC()->cart->get_shipping_packages();
-				foreach ( $packages as $package_key => $package ) {
-					$session_key = 'shipping_for_package_' . $package_key;
-					WC()->session->__unset( $session_key );
-				}
+			foreach ( $packages as $package_key => $package ) {
+				$session_key = 'shipping_for_package_' . $package_key;
+				WC()->session->__unset( $session_key );
 			}
 		}
 	}
