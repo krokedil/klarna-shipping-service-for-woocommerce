@@ -19,31 +19,6 @@ jobs:
       with:
         fetch-depth: 1
 
-    - name: Create composer cache directory
-      run: mkdir -p ~/.composer/cache
-
-    - name: Cache Composer dependencies
-      uses: actions/cache@v4
-      with:
-        path: ~/.composer/cache
-        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-composer-
-
-    - name: Cache npm dependencies
-      uses: actions/cache@v4
-      with:
-        path: ~/.npm
-        key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-npm-
-
-    - name: Install dependencies and build project
-      run: |
-        mkdir -p ~/.composer/cache
-        composer install --prefer-dist --no-progress
-        npm ci && npm run build
-
     - name: Get branch name and commit hash
       id: vars
       run: |
