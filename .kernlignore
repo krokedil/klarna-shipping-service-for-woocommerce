@@ -1,4 +1,6 @@
 /.devcontainer
+/.git
+/.github
 .kernlignore
 .gitignore
 .gitattributes
