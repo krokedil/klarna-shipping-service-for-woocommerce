@@ -24,6 +24,9 @@ To install this plugin you first need to have Klarna Checkout for WooCommerce in
 More information regarding configuration of this plugin can be found in the documentation here: https://docs.krokedil.com/article/298-klarna-shipping-service-for-woocommerce.
 
 == Changelog ==
+= 2025.03.17    - version 1.2.2 =
+* Fix           - Fixed undefined index notice.
+
 = 2024.03.11    - version 1.2.1 =
 * Enhancement - Add a filter 'klarna_kss_shipping_method_add_rate' for the calculated shipping rate.
 
