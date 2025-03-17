@@ -2,10 +2,10 @@
 Contributors: krokedil
 Tags: woocommerce, klarna, ecommerce, e-commerce, instant shopping
 Requires at least: 5.0.0
-Tested up to: 6.4.3
+Tested up to: 6.6
 Requires PHP: 7.0
 WC requires at least: 4.0.0
-WC tested up to: 8.7.0
+WC tested up to: 9.0.2
 Stable tag: trunk
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -24,6 +24,9 @@ To install this plugin you first need to have Klarna Checkout for WooCommerce in
 More information regarding configuration of this plugin can be found in the documentation here: https://docs.krokedil.com/article/298-klarna-shipping-service-for-woocommerce.
 
 == Changelog ==
+= 2025.03.17    - version 1.2.2 =
+* Fix           - Fixed undefined index notice.
+
 = 2024.03.11    - version 1.2.1 =
 * Enhancement - Add a filter 'klarna_kss_shipping_method_add_rate' for the calculated shipping rate.
 
