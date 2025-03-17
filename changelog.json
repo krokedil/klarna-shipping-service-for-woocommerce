@@ -62,6 +62,6 @@
     "1.2.2": {
         "description": "<ul><li>Fix - Fixed undefined index notice.</li></ul>",
         "requires": "5.0.0",
-        "tested": "6.4.3"
+        "tested": "6.6.0"
     }
 }
