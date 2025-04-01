@@ -63,5 +63,10 @@
         "description": "<ul><li>Fix - Fixed undefined index notice.</li></ul>",
         "requires": "5.0.0",
         "tested": "6.6.0"
+    },
+    "1.2.3": {
+        "description": "<ul><li>Feature - Added \"Tax status\" as setting for nShift Checkout shipping method.</li></ul>",
+        "requires": "5.0.0",
+        "tested": "6.6.0"
     }
 }
