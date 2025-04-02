@@ -5,12 +5,12 @@
  * Description: Klarna Shipping Assistant for WooCommerce.
  * Author: Krokedil
  * Author URI: https://krokedil.com/
- * Version: 1.2.1
+ * Version: 1.2.3
  * Text Domain: klarna-shipping-service-for-woocommerce
  * Domain Path: /languages
  *
  * WC requires at least: 3.8
- * WC tested up to: 8.7.0
+ * WC tested up to: 9.0.2
  *
  * Copyright (c) 2017-2024 Krokedil
  *
@@ -34,7 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 // Define plugin constants.
-define( 'KLARNA_KSS_VERSION', '1.2.1' );
+define( 'KLARNA_KSS_VERSION', '1.2.3' );
 define( 'KLARNA_KSS_URL', untrailingslashit( plugins_url( '/', __FILE__ ) ) );
 define( 'KLARNA_KSS_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
 
@@ -133,8 +133,11 @@ class Klarna_Shipping_Service_For_WooCommerce {
 			$order = wc_get_order( $order_id );
 
 			$shipping_details = $klarna_order['selected_shipping_option'];
+			if ( isset( $shipping_details['tms_reference'] ) ) {
+				$order->update_meta_data( '_kco_kss_reference', $shipping_details['tms_reference'] );
+			}
+
 			$order->update_meta_data( '_kco_kss_data', wp_json_encode( $shipping_details, JSON_UNESCAPED_UNICODE ) );
-			$order->update_meta_data( '_kco_kss_reference', $shipping_details['tms_reference'] );
 			$order->save();
 			WC()->session->__unset( 'kco_kss_enabled' );
 		}
