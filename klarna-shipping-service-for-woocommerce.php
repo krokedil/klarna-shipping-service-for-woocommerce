@@ -165,8 +165,8 @@ class Klarna_Shipping_Service_For_WooCommerce {
 	 * @return bool
 	 */
 	public function change_check_if_needs_payment( $bool ) {
-		// Allways return false. We want to display the KCO iframe even if order total is 0.
-		return false;
+		// Display the KCO iframe even if the order total is 0, unless on the order-received page.
+		return is_wc_endpoint_url( 'order-received' ) ? $bool : false;
 	}
 
 	/**
