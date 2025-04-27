@@ -41,10 +41,20 @@ if ( class_exists( 'WC_Shipping_Method' ) ) {
 		 */
 		public function init_form_fields() {
 			$this->instance_form_fields = array(
-				'title' => array(
+				'title'      => array(
 					'title'       => __( 'Klarna Shipping Assistant', 'klarna-shipping-service-for-woocommerce' ),
 					'type'        => 'title',
 					'description' => __( 'There are currently no settings for Klarna Shipping Assistant since this is controlled by the TMS-provider. If other plugins adds settings, these are shown below.', 'klarna-shipping-service-for-woocommerce' ),
+				),
+				'tax_status' => array(
+					'title'   => __( 'Tax status', 'woocommerce' ),
+					'type'    => 'select',
+					'class'   => 'wc-enhanced-select',
+					'default' => 'taxable',
+					'options' => array(
+						'taxable' => __( 'Taxable', 'woocommerce' ),
+						// 'none'    => _x( 'None', 'Tax status', 'woocommerce' ), @todo Implement logic for this.
+					),
 				),
 			);
 		}
