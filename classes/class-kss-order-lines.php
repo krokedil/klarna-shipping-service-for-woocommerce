@@ -22,9 +22,9 @@ class KSS_Order_Lines {
 	}
 
 	/**
-	 * Maybe add the shipping class to the Klarna item.
+	 * Maybe add the shipping class to the Kustom item.
 	 *
-	 * @param array $klarna_item The Klarna Item.
+	 * @param array $klarna_item The Kustom Item.
 	 * @param array $cart_item The Cart Item.
 	 * @return array
 	 */
@@ -51,9 +51,9 @@ class KSS_Order_Lines {
 	}
 
 	/**
-	 * Maybe add the shipping class to the Klarna item.
+	 * Maybe add the shipping class to the Kustom item.
 	 *
-	 * @param array $klarna_item The Klarna Item.
+	 * @param array $klarna_item The Kustom Item.
 	 * @param array $cart_item The Cart Item.
 	 * @return array
 	 */
@@ -71,5 +71,4 @@ class KSS_Order_Lines {
 		}
 		return $klarna_item;
 	}
-
 } new KSS_Order_Lines();

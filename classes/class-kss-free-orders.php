@@ -24,11 +24,11 @@ class KSS_Free_Orders {
 	}
 
 	/**
-	 * Set Klarna data in order even for free orders and finally reply to Klarnas JS validation event so order can proceed to confirmation step.
+	 * Set Kustom data in order even for free orders and finally reply to Kustom's JS validation event so order can proceed to confirmation step.
 	 *
 	 * @param string $redirect_url The redirect to thankyou page url.
 	 * @param object $order The WooCommerce order.
-	 * @return string the modified url, to be able to reply to Klarnas JS validation event.
+	 * @return string the modified url, to be able to reply to Kustom's JS validation event.
 	 */
 	public function handle_free_kco_orders( $redirect_url, $order ) {
 
@@ -47,14 +47,14 @@ class KSS_Free_Orders {
 	}
 
 	/**
-	 * Process the payment with information from Klarna and return the result.
+	 * Process the payment with information from Kustom and return the result.
 	 *
 	 * @param  int $order_id WooCommerce order ID.
 	 *
 	 * @return mixed
 	 */
 	public function process_payment_handler( $order_id ) {
-		// Get the Klarna order ID.
+		// Get the Kustom order ID.
 		$order = wc_get_order( $order_id );
 		if ( is_object( $order ) && $order->get_transaction_id() ) {
 			$klarna_order_id = $order->get_transaction_id();
@@ -101,5 +101,4 @@ class KSS_Free_Orders {
 		// Return false if we get here. Something went wrong.
 		return false;
 	}
-
 } new KSS_Free_Orders();

@@ -48,8 +48,8 @@ class KSS_Admin_Notices {
 		if ( defined( 'KCO_WC_VERSION' ) && ! version_compare( KCO_WC_VERSION, '2.5.0', '>=' ) ) {
 			?>
 			<div class="kco-message notice woocommerce-message notice-error">
-			<?php echo wp_kses_post( wpautop( '<p>' . __( 'It looks as if you don\'t have the required minimum version of <b>Klarna Checkout for WooCommerce</b> installed.', 'klarna-shipping-service-for-woocommerce' ) . '</p>' ) ); ?>
-			<?php echo wp_kses_post( wpautop( '<p>' . __( 'Since version 1.1.0 of <b>Klarna Shipping Assistance for WooCommerce</b> you are required to have version <b>2.5.0</b> or newer of <b>Klarna Checkout for WooCommerce</b> for the plugin to function correctly.', 'klarna-shipping-service-for-woocommerce' ) . '</p>' ) ); ?>
+			<?php echo wp_kses_post( wpautop( '<p>' . __( 'It looks as if you don\'t have the required minimum version of <b>Kustom Checkout for WooCommerce</b> installed.', 'klarna-shipping-service-for-woocommerce' ) . '</p>' ) ); ?>
+			<?php echo wp_kses_post( wpautop( '<p>' . __( 'Since version 1.1.0 of <b>Kustom Shipping Assistance for WooCommerce</b> you are required to have version <b>2.5.0</b> or newer of <b>Kustom Checkout for WooCommerce</b> for the plugin to function correctly.', 'klarna-shipping-service-for-woocommerce' ) . '</p>' ) ); ?>
 			</div>
 			<?php
 		}
