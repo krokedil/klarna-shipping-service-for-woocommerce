@@ -1,6 +1,6 @@
 <?php // phpcs:ignore
 /**
- * Edit klarna order class.
+ * Edit kustom order class.
  *
  * @package KlarnaShippingService/Classes
  */
@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Edit klarna order class.
+ * Edit kustom order class.
  */
 class KSS_Edit_Klarna_Order {
 	/**
