@@ -1,6 +1,6 @@
 <?php // phpcs:ignore
 /**
- * Edit klarna order class.
+ * Edit kustom order class.
  *
  * @package KlarnaShippingService/Classes
  */
@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Edit klarna order class.
+ * Edit kustom order class.
  */
 class KSS_Edit_Klarna_Order {
 	/**
@@ -25,7 +25,7 @@ class KSS_Edit_Klarna_Order {
 	/**
 	 * Maybe adds the free shipping tag.
 	 *
-	 * @param array $request_args The request args for Klarna Checkout.
+	 * @param array $request_args The request args for Kustom Checkout.
 	 * @return array
 	 */
 	public function maybe_add_free_shipping_tag( $request_args ) {
@@ -42,9 +42,9 @@ class KSS_Edit_Klarna_Order {
 	}
 
 	/**
-	 * Remove shipping from the Klarna order. Since we don't use the server side callback, Klarna adds this themselves.
+	 * Remove shipping from the Kustom order. Since we don't use the server side callback, Kustom adds this themselves.
 	 *
-	 * @param array $request_args The request args for Klarna Checkout.
+	 * @param array $request_args The request args for Kustom Checkout.
 	 * @return array
 	 */
 	public function remove_shipping( $request_args ) {
@@ -65,7 +65,7 @@ class KSS_Edit_Klarna_Order {
 	/**
 	 * Removes the shipping callback url incase it is set.
 	 *
-	 * @param array $request_args The request args for Klarna Checkout.
+	 * @param array $request_args The request args for Kustom Checkout.
 	 * @return array
 	 */
 	public function remove_shipping_callback_url( $request_args ) {

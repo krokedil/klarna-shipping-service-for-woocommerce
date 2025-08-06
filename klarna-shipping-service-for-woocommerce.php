@@ -1,8 +1,8 @@
 <?php // phpcs:ignore
 /**
- * Plugin Name: Klarna Shipping Assistant for WooCommerce
+ * Plugin Name: Kustom Shipping Assistant for WooCommerce
  * Plugin URI: https://krokedil.com/klarna/
- * Description: Klarna Shipping Assistant for WooCommerce.
+ * Description: Kustom Shipping Assistant for WooCommerce.
  * Author: Krokedil
  * Author URI: https://krokedil.com/
  * Version: 1.2.3
@@ -104,7 +104,7 @@ class Klarna_Shipping_Service_For_WooCommerce {
 	 */
 	public function set_shipping_method( $chosen_shipping_methods ) {
 		$shipping_methods = WC()->shipping->get_shipping_methods();
-		// Only do this if we have Klarna KSS active on the store, and the returned shipping method is NOT a real WooCommerce shipping method.
+		// Only do this if we have Kustom KSS active on the store, and the returned shipping method is NOT a real WooCommerce shipping method.
 		if ( isset( $shipping_methods['klarna_kss'] ) && ! isset( $shipping_methods[ $chosen_shipping_methods[0] ] ) ) {
 			return array( 'klarna_kss' );
 		}
@@ -115,7 +115,7 @@ class Klarna_Shipping_Service_For_WooCommerce {
 	 * Adds the shipping details from KSS to the WooCommerce order.
 	 *
 	 * @param int   $order_id The WooCommerce order id.
-	 * @param array $klarna_order The Klarna order.
+	 * @param array $klarna_order The Kustom order.
 	 * @return void
 	 */
 	public function add_shipping_details_to_order( $order_id, $klarna_order ) {
