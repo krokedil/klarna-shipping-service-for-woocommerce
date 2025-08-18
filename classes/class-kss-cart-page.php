@@ -1,6 +1,6 @@
 <?php // phpcs:ignore
 /**
- * Klarna tags class
+ * Kustom tags class
  *
  * @package KlarnaShippingService/Classes
  */
@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Klarna tags class
+ * Kustom tags class
  */
 class KSS_Cart_Page {
 	/**

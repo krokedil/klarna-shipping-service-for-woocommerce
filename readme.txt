@@ -1,20 +1,20 @@
-=== Klarna Shipping Assistant for WooCommerce ===
+=== Kustom Shipping Assistant for WooCommerce ===
 Contributors: krokedil
 Tags: woocommerce, klarna, ecommerce, e-commerce, instant shopping
 Requires at least: 5.0.0
-Tested up to: 6.6
+Tested up to: 6.8
 Requires PHP: 7.0
 WC requires at least: 4.0.0
-WC tested up to: 9.0.2
+WC tested up to: 10.1.0
 Stable tag: trunk
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 == DESCRIPTION ==
-Klarna Shipping Assistant for WooCommerce is an add-on plugin to Klarna Checkout for WooCommerce. This add-on plugin makes it possible to display shipping options in the KCO iframe provided by your TMS.
+Kustom Shipping Assistant for WooCommerce is an add-on plugin to Kustom Checkout for WooCommerce. This add-on plugin makes it possible to display shipping options in the KCO iframe provided by your TMS.
 
 == Installation ==
-To install this plugin you first need to have Klarna Checkout for WooCommerce installed. You install this plugin just like any other WordPress plugin:
+To install this plugin you first need to have Kustom Checkout for WooCommerce installed. You install this plugin just like any other WordPress plugin:
 
 1. Download and unzip the latest release zip file.
 2. If you use the WordPress plugin uploader to install this plugin skip to step 4.
@@ -24,6 +24,9 @@ To install this plugin you first need to have Klarna Checkout for WooCommerce in
 More information regarding configuration of this plugin can be found in the documentation here: https://docs.krokedil.com/article/298-klarna-shipping-service-for-woocommerce.
 
 == Changelog ==
+= 2025.08.18    - version 1.3.0 =
+* Feature       - Updated visual rebranding to align with the Kustom brand identity.
+
 = 2025.04.01    - version 1.2.3 =
 * Feature       - Added "Tax status" as setting for nShift Checkout shipping method.
 

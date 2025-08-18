@@ -68,5 +68,10 @@
         "description": "<ul><li>Feature - Added \"Tax status\" as setting for nShift Checkout shipping method.</li></ul>",
         "requires": "5.0.0",
         "tested": "6.6.0"
+    },
+     "1.3.0": {
+        "description": "<ul><li>Feature - Updated visual rebranding to align with the Kustom brand identity.</li></ul>",
+        "requires": "5.0.0",
+        "tested": "6.8.2"
     }
 }

@@ -24,9 +24,9 @@ if ( class_exists( 'WC_Shipping_Method' ) ) {
 		public function __construct( $instance_id = 0 ) {
 			$this->id                 = 'klarna_kss';
 			$this->instance_id        = absint( $instance_id );
-			$this->title              = 'Klarna Shipping Assistant';
-			$this->method_title       = __( 'Klarna Shipping Assistant', 'klarna-shipping-service-for-woocommerce' );
-			$this->method_description = __( 'Enables Klarna Shipping Assistant for WooCommerce', 'klarna-shipping-service-for-woocommerce' );
+			$this->title              = 'Kustom Shipping Assistant';
+			$this->method_title       = __( 'Kustom Shipping Assistant', 'klarna-shipping-service-for-woocommerce' );
+			$this->method_description = __( 'Enables Kustom Shipping Assistant for WooCommerce', 'klarna-shipping-service-for-woocommerce' );
 			$this->supports           = array(
 				'shipping-zones',
 				'instance-settings',
@@ -42,9 +42,9 @@ if ( class_exists( 'WC_Shipping_Method' ) ) {
 		public function init_form_fields() {
 			$this->instance_form_fields = array(
 				'title' => array(
-					'title'       => __( 'Klarna Shipping Assistant', 'klarna-shipping-service-for-woocommerce' ),
+					'title'       => __( 'Kustom Shipping Assistant', 'klarna-shipping-service-for-woocommerce' ),
 					'type'        => 'title',
-					'description' => __( 'There are currently no settings for Klarna Shipping Assistant since this is controlled by the TMS-provider. If other plugins adds settings, these are shown below.', 'klarna-shipping-service-for-woocommerce' ),
+					'description' => __( 'There are currently no settings for Kustom Shipping Assistant since this is controlled by the TMS-provider. If other plugins adds settings, these are shown below.', 'klarna-shipping-service-for-woocommerce' ),
 				),
 			);
 		}
@@ -69,7 +69,7 @@ if ( class_exists( 'WC_Shipping_Method' ) ) {
 		 * @return void
 		 */
 		public function calculate_shipping( $package = array() ) {
-			$label           = 'Klarna Shipping Assistant';
+			$label           = 'Kustom Shipping Assistant';
 			$cost            = 0;
 			$klarna_order_id = WC()->session->get( 'kco_wc_order_id' );
 			$shipping_data   = get_transient( 'kss_data_' . $klarna_order_id );
@@ -81,7 +81,7 @@ if ( class_exists( 'WC_Shipping_Method' ) ) {
 				}
 
 				$label = $shipping_data['name'];
-				// To prevent rounding issues from Klarna sending us a max of 2 decimals, we need to calculate the actual tax cost and subtract that from the total.
+				// To prevent rounding issues from Kustom sending us a max of 2 decimals, we need to calculate the actual tax cost and subtract that from the total.
 				$cost                   = floatval( round( $shipping_data['price'] / ( 1 + ( $shipping_data['tax_rate'] / 10000 ) ), 2 ) ) / 100;
 				$tax_amount             = floatval( $shipping_data['tax_amount'] ) / 100;
 				$this->kss_tax_amount   = $tax_amount;
@@ -92,7 +92,7 @@ if ( class_exists( 'WC_Shipping_Method' ) ) {
 					'cost'  => $cost,
 				);
 
-				/* Klarna already converts the shipping cost to the purchase currency. To avoid double-conversion, we must pass the currency onto the currency switchers. */
+				/* Kustom already converts the shipping cost to the purchase currency. To avoid double-conversion, we must pass the currency onto the currency switchers. */
 				if ( isset( $shipping_data['currency'] ) ) {
 					$rate['meta_data'] = array(
 						'currency' => $shipping_data['currency'],
