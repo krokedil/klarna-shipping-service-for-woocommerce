@@ -14,11 +14,18 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class KSS_Free_Orders {
 	/**
+	 * Whether test mode is enabled in Klarna Checkout.
+	 *
+	 * @var bool
+	 */
+	private $testmode;
+
+	/**
 	 * Class constructor.
 	 */
 	public function __construct() {
 		$kco_settings   = get_option( 'woocommerce_kco_settings' );
-		$this->testmode = 'yes' === $kco_settings['testmode'];
+		$this->testmode = wc_string_to_bool( $kco_settings['testmode'] );
 
 		add_filter( 'woocommerce_checkout_no_payment_needed_redirect', array( $this, 'handle_free_kco_orders' ), 20, 2 );
 	}
