@@ -17,6 +17,21 @@ if ( class_exists( 'WC_Shipping_Method' ) ) {
 	class KSS_Shipping_Method extends WC_Shipping_Method {
 
 		/**
+		 *
+		 * The shipping tax amount.
+		 *
+		 * @var false|float
+		 */
+		public $kss_tax_amount = false;
+
+		/**
+		 * The shipping total amount.
+		 *
+		 * @var float
+		 */
+		public $kss_total_amount = 0;
+
+		/**
 		 * Class constructor.
 		 *
 		 * @param integer $instance_id The instance id.
@@ -32,7 +47,6 @@ if ( class_exists( 'WC_Shipping_Method' ) ) {
 				'instance-settings',
 				'instance-settings-modal',
 			);
-			$this->kss_tax_amount     = false;
 			$this->init_form_fields();
 			$this->init_settings();
 		}
