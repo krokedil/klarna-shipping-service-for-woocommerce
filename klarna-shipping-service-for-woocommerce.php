@@ -5,12 +5,12 @@
  * Description: Kustom Shipping Assistant for WooCommerce.
  * Author: Krokedil
  * Author URI: https://krokedil.com/
- * Version: 1.3.0
+ * Version: 1.3.1
  * Text Domain: klarna-shipping-service-for-woocommerce
  * Domain Path: /languages
  *
  * WC requires at least: 3.8
- * WC tested up to: 10.1.0
+ * WC tested up to: 10.1.2
  *
  * Copyright (c) 2017-2024 Krokedil
  *
@@ -34,7 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 // Define plugin constants.
-define( 'KLARNA_KSS_VERSION', '1.2.3' );
+define( 'KLARNA_KSS_VERSION', '1.3.1' );
 define( 'KLARNA_KSS_URL', untrailingslashit( plugins_url( '/', __FILE__ ) ) );
 define( 'KLARNA_KSS_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
 
@@ -53,6 +53,7 @@ class Klarna_Shipping_Service_For_WooCommerce {
 		add_action( 'kco_update_shipping_data', array( $this, 'clear_shipping_and_recalculate' ) );
 		add_filter( 'kco_wc_chosen_shipping_method', array( $this, 'set_shipping_method' ) );
 		add_filter( 'kco_check_if_needs_payment', array( $this, 'change_check_if_needs_payment' ) );
+		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'plugin_action_links' ) );
 	}
 
 	/**
@@ -76,6 +77,21 @@ class Klarna_Shipping_Service_For_WooCommerce {
 		if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
 			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
 		}
+	}
+
+	/**
+	 * Add plugin action links.
+	 *
+	 * @param array $links Plugin action link before filtering.
+	 * @return array Filtered links.
+	 */
+	public function plugin_action_links( $links ) {
+		$docs_url     = 'https://docs.krokedil.com/kustom-checkout-for-woocommerce/get-started/kustom-shipping-assistant/';
+		$plugin_links = array(
+			'<a target="_blank" href="' . $docs_url . '">' . __( 'Docs', 'klarna-shipping-service-for-woocommerce' ) . '</a>',
+		);
+
+		return array_merge( $plugin_links, $links );
 	}
 
 	/**
