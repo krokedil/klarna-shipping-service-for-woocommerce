@@ -1,0 +1,16 @@
+{
+  "pluginDevZipE2e": {
+    "pages": [
+      {
+        "url": "/wp-admin/admin.php?page=wc-settings&tab=shipping&section=klarna_kss",
+        "assertions": [
+          {
+            "selector": "h2",
+            "text": "Kustom Shipping Assistant",
+            "match": "contains"
+          }
+        ]
+      }
+    ]
+  }
+}

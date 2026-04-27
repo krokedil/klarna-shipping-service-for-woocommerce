@@ -8,6 +8,7 @@
  * Version: 1.3.1
  * Text Domain: klarna-shipping-service-for-woocommerce
  * Domain Path: /languages
+ * Requires Plugins: woocommerce, klarna-checkout-for-woocommerce
  *
  * WC requires at least: 3.8
  * WC tested up to: 10.6.2
