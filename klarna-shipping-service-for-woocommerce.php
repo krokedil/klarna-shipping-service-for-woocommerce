@@ -238,10 +238,13 @@ class Klarna_Shipping_Service_For_WooCommerce {
 			WC()->session->__unset( 'kco_kss_enabled' );
 		}
 
-		// Bump the shipping transient version so WooCommerce re-runs shipping for ALL packages,
-		// including Subscriptions' recurring packages (their package hash doesn't change when the
-		// override transient changes, so unsetting only the main-cart package keys isn't enough).
-		WC_Cache_Helper::get_transient_version( 'shipping', true );
+		// Clear this customer's cached shipping rates so WooCommerce re-runs shipping on the next
+		// calculation. We unset every 'shipping_for_package_*' session key (not just the main-cart packages)
+		foreach ( array_keys( WC()->session->get_session_data() ) as $session_key ) {
+			if ( 0 === strpos( $session_key, 'shipping_for_package_' ) ) {
+				WC()->session->__unset( $session_key );
+			}
+		}
 	}
 
 	/**
