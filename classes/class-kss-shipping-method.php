@@ -87,7 +87,14 @@ if ( class_exists( 'WC_Shipping_Method' ) ) {
 			$cost            = 0;
 			$klarna_order_id = WC()->session->get( 'kco_wc_order_id' );
 			$shipping_data   = get_transient( 'kss_data_' . $klarna_order_id );
-			$rate            = array();
+
+			// If we have the override data for the shipping option, use that.
+			$override_data = get_transient( "kss_override_data_$klarna_order_id" );
+			if ( $override_data ) {
+				$shipping_data = $override_data;
+			}
+
+			$rate = array();
 			if ( ! empty( $shipping_data ) ) {
 				if ( isset( $shipping_data['shipping_method'] ) && 'digital' === strtolower( $shipping_data['shipping_method'] ) ) {
 					add_filter( 'woocommerce_cart_needs_shipping', '__return_false' );
@@ -114,7 +121,7 @@ if ( class_exists( 'WC_Shipping_Method' ) ) {
 
 					/* WPML do not respect the meta data currency property. */
 					global $woocommerce_wpml;
-					if ( isset( $woocommerce_wpml ) && $woocommerce_wpml->settings['enable_multi_currency'] == WCML_MULTI_CURRENCIES_INDEPENDENT ) {
+					if ( isset( $woocommerce_wpml ) && WCML_MULTI_CURRENCIES_INDEPENDENT === $woocommerce_wpml->settings['enable_multi_currency'] ) {
 						$rate['cost'] = $woocommerce_wpml->multi_currency->prices->unconvert_price_amount( $rate['cost'], $shipping_data['currency'] );
 					}
 				}
@@ -130,7 +137,7 @@ if ( class_exists( 'WC_Shipping_Method' ) ) {
 	 * @param array $methods WooCommerce shipping methods.
 	 * @return array
 	 */
-	function add_kss_shipping_method( $methods ) {
+	function add_kss_shipping_method( $methods ) { // phpcs:ignore Universal.Files.SeparateFunctionsFromOO.Mixed -- Legacy
 		$methods['klarna_kss'] = 'KSS_Shipping_Method';
 		return $methods;
 	}

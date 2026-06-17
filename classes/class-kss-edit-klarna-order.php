@@ -19,7 +19,6 @@ class KSS_Edit_Klarna_Order {
 	public function __construct() {
 		add_filter( 'kco_wc_api_request_args', array( $this, 'maybe_add_free_shipping_tag' ) );
 		add_filter( 'kco_wc_api_request_args', array( $this, 'remove_shipping' ) );
-		add_filter( 'kco_wc_api_request_args', array( $this, 'remove_shipping_callback_url' ) );
 	}
 
 	/**
@@ -48,6 +47,16 @@ class KSS_Edit_Klarna_Order {
 	 * @return array
 	 */
 	public function remove_shipping( $request_args ) {
+		// Skip if we have override KSS data for this order.
+		$kco_order_id = WC()->session->get( 'kco_wc_order_id' );
+
+		// If we have the override data for the shipping option, we should not remove the shipping line,
+		// since we have replaced it with the updated shipping data from WooCommerce instead.
+		$override_data = get_transient( "kss_override_data_$kco_order_id" );
+		if ( $override_data ) {
+			return $request_args;
+		}
+
 		if ( isset( $request_args['order_lines'] ) ) {
 			foreach ( $request_args['order_lines'] as $key => $order_line ) {
 				if ( isset( $order_line['type'] ) && 'shipping_fee' === $order_line['type'] ) {
@@ -74,4 +83,4 @@ class KSS_Edit_Klarna_Order {
 		}
 		return $request_args;
 	}
-} new KSS_Edit_Klarna_Order();
+} new KSS_Edit_Klarna_Order(); // phpcs:ignore PSR2.Classes.ClassDeclaration.CloseBraceSameLine -- Legacy
