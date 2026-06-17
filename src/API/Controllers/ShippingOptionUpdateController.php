@@ -115,7 +115,7 @@ class ShippingOptionUpdateController extends BaseController {
 
 		// If the order is a free trial subscription, shipping must be free, so zero out the price and tax.
 		if ( $this->is_free_trial_shipping( $body ) ) {
-			$this->apply_free_trial_override( $shipping_option, $shipping_order_line );
+			$this->apply_free_trial_override( $shipping_order_line );
 		}
 
 		$order_lines = $this->build_order_lines( $body, $shipping_order_line );
@@ -201,17 +201,13 @@ class ShippingOptionUpdateController extends BaseController {
 	}
 
 	/**
-	 * Zero out the shipping price and tax on both the shipping option and its order line.
+	 * Zero out the shipping price and tax on the shipping order line.
 	 *
-	 * @param array $shipping_option     The shipping option (modified by reference).
 	 * @param array $shipping_order_line The shipping order line (modified by reference).
 	 *
 	 * @return void
 	 */
-	private function apply_free_trial_override( &$shipping_option, &$shipping_order_line ) {
-		$shipping_option['price']      = 0;
-		$shipping_option['tax_amount'] = 0;
-
+	private function apply_free_trial_override( &$shipping_order_line ) {
 		$shipping_order_line['unit_price']       = 0;
 		$shipping_order_line['total_amount']     = 0;
 		$shipping_order_line['total_tax_amount'] = 0;
