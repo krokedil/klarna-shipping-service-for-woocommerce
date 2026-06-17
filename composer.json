@@ -1,0 +1,31 @@
+{
+    "require-dev": {
+        "wp-coding-standards/wpcs": "^3.1",
+        "php-stubs/woocommerce-stubs": "^10.0",
+        "szepeviktor/phpstan-wordpress": "^2.0",
+        "php-stubs/woocommerce-subscriptions-stubs": "^8.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Krokedil\\KustomShippingService\\": "src/"
+        }
+    },
+    "config": {
+        "platform-check": false,
+        "platform": {
+            "php": "7.4"
+        },
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "phpstan/extension-installer": true
+        }
+    },
+    "scripts": {
+        "lint": "vendor/bin/phpcs . --standard=phpcs.xml --extensions=php -q -s",
+        "lint:fix": "vendor/bin/phpcbf . --standard=phpcs.xml --extensions=php -q -s",
+        "lint:changes": "git diff --name-only HEAD~1 | grep '\\.php$' | xargs vendor/bin/phpcs --standard=phpcs.xml --extensions=php -q -s",
+        "lint:fix:changes": "git diff --name-only HEAD~1 | grep '\\.php$' | xargs vendor/bin/phpcbf --standard=phpcs.xml --extensions=php -q -s",
+        "phpstan": "./vendor/bin/phpstan analyse --memory-limit=1G",
+        "phpstan:baseline": "./vendor/bin/phpstan analyse --memory-limit=1G --generate-baseline"
+    }
+}
