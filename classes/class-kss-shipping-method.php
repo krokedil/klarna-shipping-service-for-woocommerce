@@ -96,10 +96,10 @@ if ( class_exists( 'WC_Shipping_Method' ) ) {
 
 				$label = $shipping_data['name'];
 				if ( apply_filters( 'woocommerce_shipping_prices_include_tax', false ) ) {
-					// Shipping prices are entered including tax — pass Kustom's price through as-is and let WooCommerce reverse-calculate the tax.
+					// Shipping prices are entered including tax in WooCommerce — pass Kustom's price through as-is and let WooCommerce reverse-calculate the tax.
 					$cost = floatval( $shipping_data['price'] ) / 100;
 				} else {
-					// To prevent rounding issues from Kustom sending us a max of 2 decimals, we need to calculate the actual tax cost and subtract that from the total.
+					// Shipping prices are entered excluding tax in WooCommerce (default) - we need to calculate the actual tax cost and subtract that from the total.
 					$cost = floatval( round( $shipping_data['price'] / ( 1 + ( $shipping_data['tax_rate'] / 10000 ) ), 2 ) ) / 100;
 				}
 				$tax_amount             = floatval( $shipping_data['tax_amount'] ) / 100;
