@@ -239,7 +239,7 @@ class Klarna_Shipping_Service_For_WooCommerce {
 		}
 
 		// Clear this customer's cached shipping rates so WooCommerce re-runs shipping on the next
-		// calculation. We unset every 'shipping_for_package_*' session key (not just the main-cart packages)
+		// calculation. We unset every 'shipping_for_package_*' session key (not just the main-cart packages).
 		foreach ( array_keys( WC()->session->get_session_data() ) as $session_key ) {
 			if ( 0 === strpos( $session_key, 'shipping_for_package_' ) ) {
 				WC()->session->__unset( $session_key );
@@ -323,7 +323,7 @@ class Klarna_Shipping_Service_For_WooCommerce {
 	private static function missing_autoloader() {
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 			error_log( // phpcs:ignore
-				esc_html__( 'Your installation of Kustom Shipping Assistant for WooCommerce is not complete. If you installed this plugin directly from Github please refer to the README.DEV.md file in the plugin.', 'klarna-shipping-service-for-woocommerce' )
+				esc_html__( 'Your installation of Kustom Shipping Assistant for WooCommerce is not complete. If you installed this plugin directly from Github please refer to the readme.dev.md file in the plugin.', 'klarna-shipping-service-for-woocommerce' )
 			);
 		}
 
@@ -333,7 +333,7 @@ class Klarna_Shipping_Service_For_WooCommerce {
 				?>
 					<div class="notice notice-error">
 						<p>
-							<?php echo esc_html__( 'Your installation of Kustom Shipping Assistant for WooCommerce is not complete. If you installed this plugin directly from Github please refer to the README.DEV.md file in the plugin.', 'klarna-shipping-service-for-woocommerce' ); ?>
+							<?php echo esc_html__( 'Your installation of Kustom Shipping Assistant for WooCommerce is not complete. If you installed this plugin directly from Github please refer to the readme.dev.md file in the plugin.', 'klarna-shipping-service-for-woocommerce' ); ?>
 						</p>
 					</div>
 				<?php

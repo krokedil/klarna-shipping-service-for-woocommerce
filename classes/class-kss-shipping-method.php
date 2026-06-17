@@ -87,18 +87,19 @@ if ( class_exists( 'WC_Shipping_Method' ) ) {
 			$cost            = 0;
 			$klarna_order_id = WC()->session->get( 'kco_wc_order_id' );
 			$shipping_data   = get_transient( 'kss_data_' . $klarna_order_id );
+			$rate            = array();
 
-			// If we have the override data for the shipping option, use that.
-			$override_data = get_transient( "kss_override_data_$klarna_order_id" );
-			if ( $override_data ) {
-				$shipping_data['price']      = $override_data['price'] ?? $shipping_data['price'];
-				$shipping_data['name']       = $override_data['name'] ?? $shipping_data['name'];
-				$shipping_data['tax_rate']   = $override_data['tax_rate'] ?? $shipping_data['tax_rate'];
-				$shipping_data['tax_amount'] = $override_data['tax_amount'] ?? $shipping_data['tax_amount'];
-			}
-
-			$rate = array();
 			if ( ! empty( $shipping_data ) ) {
+				// If we have the override data for the shipping option, use that.
+				$override_data = get_transient( "kss_override_data_$klarna_order_id" );
+
+				if ( $override_data ) {
+					$shipping_data['price']      = $override_data['price'] ?? $shipping_data['price'];
+					$shipping_data['name']       = $override_data['name'] ?? $shipping_data['name'];
+					$shipping_data['tax_rate']   = $override_data['tax_rate'] ?? $shipping_data['tax_rate'];
+					$shipping_data['tax_amount'] = $override_data['tax_amount'] ?? $shipping_data['tax_amount'];
+				}
+
 				if ( isset( $shipping_data['shipping_method'] ) && 'digital' === strtolower( $shipping_data['shipping_method'] ) ) {
 					add_filter( 'woocommerce_cart_needs_shipping', '__return_false' );
 					return;

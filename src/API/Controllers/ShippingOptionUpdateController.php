@@ -27,7 +27,7 @@ class ShippingOptionUpdateController extends BaseController {
 		// Register the callback route for the controller.
 		register_rest_route(
 			$this->namespace,
-			$this->get_request_path('shipping-option-update'),
+			$this->get_request_path( 'shipping-option-update' ),
 			array(
 				'methods'             => \WP_REST_Server::CREATABLE,
 				'callback'            => array( $this, 'handle_shipping_option_update' ),
@@ -61,7 +61,7 @@ class ShippingOptionUpdateController extends BaseController {
 		}
 
 		// Ensure the order has the correct status.
-		if ( $kco_order['status'] !== 'checkout_incomplete' ) {
+		if ( 'checkout_incomplete' !== $kco_order['status'] ) {
 			return false;
 		}
 
@@ -74,12 +74,13 @@ class ShippingOptionUpdateController extends BaseController {
 	 * @param \WP_REST_Request $request The REST request object.
 	 *
 	 * @return \WP_REST_Response The REST response object.
+	 * @throws \Exception If an error occurs while processing the request.
 	 */
 	public function handle_shipping_option_update( $request ) {
 		$body   = $request->get_json_params();
 		$kco_id = $request->get_param( 'kco_id' );
 
-		try{
+		try {
 			// If the body is empty, return an error response.
 			if ( empty( $body ) ) {
 				throw new \Exception( 'Request body is empty' );
@@ -104,7 +105,7 @@ class ShippingOptionUpdateController extends BaseController {
 	/**
 	 * Get response body
 	 *
-	 * @param array $body The request body.
+	 * @param array  $body The request body.
 	 * @param string $kco_id The KCO order id.
 	 *
 	 * @return array The response body.
@@ -225,9 +226,12 @@ class ShippingOptionUpdateController extends BaseController {
 		$order_lines = $body['order_lines'] ?? array();
 
 		// Remove any existing shipping order lines from the order lines array.
-		$order_lines = array_filter( $order_lines, function( $line ) {
-			return $line['type'] !== 'shipping_fee';
-		} );
+		$order_lines = array_filter(
+			$order_lines,
+			function ( $line ) {
+				return ( $line['type'] ?? '' ) !== 'shipping_fee';
+			}
+		);
 
 		$order_lines[] = $shipping_order_line;
 
@@ -243,9 +247,13 @@ class ShippingOptionUpdateController extends BaseController {
 	 * @return int The summed amount.
 	 */
 	private function calculate_order_total( $order_lines, $key ) {
-		return array_reduce( $order_lines, function( $carry, $line ) use ( $key ) {
-			return $carry + ( $line[ $key ] ?? 0 );
-		}, 0 );
+		return array_reduce(
+			$order_lines,
+			function ( $carry, $line ) use ( $key ) {
+				return $carry + ( $line[ $key ] ?? 0 );
+			},
+			0
+		);
 	}
 
 	/**
@@ -352,14 +360,24 @@ class ShippingOptionUpdateController extends BaseController {
 	 * @return array The filtered response.
 	 */
 	private function filter_response( $response ) {
-		return array_filter( $response, function( $value ) {
+		foreach ( $response as $key => $value ) {
 			// If the value is an array, we need to filter it recursively.
 			if ( is_array( $value ) ) {
-				return ! empty( $this->filter_response( $value ) );
+				$value = $this->filter_response( $value );
+				if ( empty( $value ) ) {
+					unset( $response[ $key ] );
+					continue;
+				}
+				$response[ $key ] = $value;
+				continue;
 			}
 
-			return null !== $value;
-		} );
+			// If the value is null, remove it from the response.
+			if ( null === $value ) {
+				unset( $response[ $key ] );
+			}
+		}
+		return $response;
 	}
 
 	/**
