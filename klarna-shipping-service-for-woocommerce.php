@@ -208,6 +208,15 @@ class Klarna_Shipping_Service_For_WooCommerce {
 				$order->update_meta_data( '_kco_kss_reference', $shipping_details['tms_reference'] );
 			}
 
+			// Update the shipping details with the override data if it exists, since we want to save the overridden shipping details to the order, not the original ones from KSS.
+			$override_data = get_transient( "kss_override_data_$kco_id" );
+			if ( $override_data ) {
+				$shipping_details['price']      = $override_data['price'] ?? $shipping_details['price'];
+				$shipping_details['name']       = $override_data['name'] ?? $shipping_details['name'];
+				$shipping_details['tax_rate']   = $override_data['tax_rate'] ?? $shipping_details['tax_rate'];
+				$shipping_details['tax_amount'] = $override_data['tax_amount'] ?? $shipping_details['tax_amount'];
+			}
+
 			$order->update_meta_data( '_kco_kss_data', wp_json_encode( $shipping_details, JSON_UNESCAPED_UNICODE ) );
 			$order->save();
 			WC()->session->__unset( 'kco_kss_enabled' );
@@ -225,19 +234,14 @@ class Klarna_Shipping_Service_For_WooCommerce {
 	public function clear_shipping_and_recalculate() {
 		if ( 'kco' === WC()->session->get( 'chosen_payment_method' ) ) {
 			WC()->session->set( 'kco_kss_enabled', true );
-			$packages = WC()->cart->get_shipping_packages();
-			foreach ( $packages as $package_key => $package ) {
-				$session_key = 'shipping_for_package_' . $package_key;
-				WC()->session->__unset( $session_key );
-			}
 		} elseif ( null !== WC()->session->get( 'kco_kss_enabled' ) ) {
-				WC()->session->__unset( 'kco_kss_enabled' );
-				$packages = WC()->cart->get_shipping_packages();
-			foreach ( $packages as $package_key => $package ) {
-				$session_key = 'shipping_for_package_' . $package_key;
-				WC()->session->__unset( $session_key );
-			}
+			WC()->session->__unset( 'kco_kss_enabled' );
 		}
+
+		// Bump the shipping transient version so WooCommerce re-runs shipping for ALL packages,
+		// including Subscriptions' recurring packages (their package hash doesn't change when the
+		// override transient changes, so unsetting only the main-cart package keys isn't enough).
+		WC_Cache_Helper::get_transient_version( 'shipping', true );
 	}
 
 	/**
