@@ -91,7 +91,10 @@ if ( class_exists( 'WC_Shipping_Method' ) ) {
 			// If we have the override data for the shipping option, use that.
 			$override_data = get_transient( "kss_override_data_$klarna_order_id" );
 			if ( $override_data ) {
-				$shipping_data = $override_data;
+				$shipping_data['price']      = $override_data['price'] ?? $shipping_data['price'];
+				$shipping_data['name']       = $override_data['name'] ?? $shipping_data['name'];
+				$shipping_data['tax_rate']   = $override_data['tax_rate'] ?? $shipping_data['tax_rate'];
+				$shipping_data['tax_amount'] = $override_data['tax_amount'] ?? $shipping_data['tax_amount'];
 			}
 
 			$rate = array();
@@ -126,6 +129,7 @@ if ( class_exists( 'WC_Shipping_Method' ) ) {
 					}
 				}
 			}
+
 			$this->add_rate( apply_filters( 'klarna_kss_shipping_method_add_rate', $rate ) );
 		}
 	}
