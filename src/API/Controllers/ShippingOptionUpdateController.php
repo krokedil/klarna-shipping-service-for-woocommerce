@@ -314,8 +314,17 @@ class ShippingOptionUpdateController extends BaseController {
 		$customer->set_shipping_state( $shipping_address['state'] ?? null );
 		$customer->set_shipping_postcode( $shipping_address['postal_code'] ?? null );
 
-		// Get the shipping tax rate for the customer's location.
-		$tax_rates = \WC_Tax::get_shipping_tax_rates( null, $customer );
+		/**
+		 *  Get the shipping tax rate for the customer's location.
+		 *
+		 *  We need to pass the default tax class (empty string) to ensure we don't attempt to get it from the cart, which is not available in this context.
+		 *  If the tax class is not configured with any rates that matches the customers location, this will return an empty array,
+		 *  but only if there is no set shipping tax class, that always overrides the passed shipping tax class. Meaning the calculation will still
+		 *  match what WooCommerce would calculate as well, since if no shipping tax is found that matches the cart if its set to inherit, it will return an empty array as well.
+		 *
+		 * @see https://github.com/woocommerce/woocommerce/blob/04789354c046f36835f629b7e3ccfc66d4173f17/plugins/woocommerce/includes/class-wc-tax.php#L566-L583
+		 */
+		$tax_rates = \WC_Tax::get_shipping_tax_rates( '', $customer );
 
 		// If we don't have any tax rates, return an empty array.
 		if ( empty( $tax_rates ) ) {
