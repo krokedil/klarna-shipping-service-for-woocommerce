@@ -70,17 +70,4 @@ class KSS_Edit_Klarna_Order {
 		}
 		return $request_args;
 	}
-
-	/**
-	 * Removes the shipping callback url incase it is set.
-	 *
-	 * @param array $request_args The request args for Kustom Checkout.
-	 * @return array
-	 */
-	public function remove_shipping_callback_url( $request_args ) {
-		if ( isset( $request_args['merchant_urls']['shipping_option_update'] ) ) {
-			unset( $request_args['merchant_urls']['shipping_option_update'] );
-		}
-		return $request_args;
-	}
 } new KSS_Edit_Klarna_Order(); // phpcs:ignore PSR2.Classes.ClassDeclaration.CloseBraceSameLine -- Legacy
