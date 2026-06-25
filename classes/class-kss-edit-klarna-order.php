@@ -47,14 +47,16 @@ class KSS_Edit_Klarna_Order {
 	 * @return array
 	 */
 	public function remove_shipping( $request_args ) {
-		// Skip if we have override KSS data for this order.
-		$kco_order_id = WC()->session->get( 'kco_wc_order_id' );
+		// If the session is available, see if we have any override data for the shipping option.
+		if ( null !== WC()->session ) {
+			$kco_order_id = WC()->session->get( 'kco_wc_order_id' );
 
-		// If we have the override data for the shipping option, we should not remove the shipping line,
-		// since we have replaced it with the updated shipping data from WooCommerce instead.
-		$override_data = get_transient( "kss_override_data_$kco_order_id" );
-		if ( $override_data ) {
-			return $request_args;
+			// If we have the override data for the shipping option, we should not remove the shipping line,
+			// since we have replaced it with the updated shipping data from WooCommerce instead.
+			$override_data = get_transient( "kss_override_data_$kco_order_id" );
+			if ( $override_data ) {
+				return $request_args;
+			}
 		}
 
 		if ( isset( $request_args['order_lines'] ) ) {
