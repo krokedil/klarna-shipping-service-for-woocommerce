@@ -24,6 +24,10 @@ To install this plugin you first need to have Kustom Checkout for WooCommerce in
 More information regarding configuration of this plugin can be found in the documentation here: https://docs.krokedil.com/article/298-klarna-shipping-service-for-woocommerce.
 
 == Changelog ==
+= 2026.08.04    - version 1.3.2 =
+* Fix           - Fixed an issue where shipping costs were miscalculated for stores treating shipping prices as tax-inclusive.
+* Fix           - Fixed an issue with price calculation for free trial subscriptions with shipping, preventing the subscription from being completed.
+
 = 2025.09.02    - version 1.3.1 =
 * Fix           - Resolved PHP 8 deprecation warnings.
 
