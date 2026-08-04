@@ -88,15 +88,31 @@ if ( class_exists( 'WC_Shipping_Method' ) ) {
 			$klarna_order_id = WC()->session->get( 'kco_wc_order_id' );
 			$shipping_data   = get_transient( 'kss_data_' . $klarna_order_id );
 			$rate            = array();
+
 			if ( ! empty( $shipping_data ) ) {
+				// If we have the override data for the shipping option, use that.
+				$override_data = get_transient( "kss_override_data_$klarna_order_id" );
+
+				if ( $override_data ) {
+					$shipping_data['price']      = $override_data['price'] ?? $shipping_data['price'];
+					$shipping_data['name']       = $override_data['name'] ?? $shipping_data['name'];
+					$shipping_data['tax_rate']   = $override_data['tax_rate'] ?? $shipping_data['tax_rate'];
+					$shipping_data['tax_amount'] = $override_data['tax_amount'] ?? $shipping_data['tax_amount'];
+				}
+
 				if ( isset( $shipping_data['shipping_method'] ) && 'digital' === strtolower( $shipping_data['shipping_method'] ) ) {
 					add_filter( 'woocommerce_cart_needs_shipping', '__return_false' );
 					return;
 				}
 
 				$label = $shipping_data['name'];
-				// To prevent rounding issues from Kustom sending us a max of 2 decimals, we need to calculate the actual tax cost and subtract that from the total.
-				$cost                   = floatval( round( $shipping_data['price'] / ( 1 + ( $shipping_data['tax_rate'] / 10000 ) ), 2 ) ) / 100;
+				if ( apply_filters( 'woocommerce_shipping_prices_include_tax', false ) ) {
+					// Shipping prices are entered including tax in WooCommerce — pass Kustom's price through as-is and let WooCommerce reverse-calculate the tax.
+					$cost = floatval( $shipping_data['price'] ) / 100;
+				} else {
+					// Shipping prices are entered excluding tax in WooCommerce (default) - we need to calculate the actual tax cost and subtract that from the total.
+					$cost = floatval( round( $shipping_data['price'] / ( 1 + ( $shipping_data['tax_rate'] / 10000 ) ), 2 ) ) / 100;
+				}
 				$tax_amount             = floatval( $shipping_data['tax_amount'] ) / 100;
 				$this->kss_tax_amount   = $tax_amount;
 				$this->kss_total_amount = $cost;
@@ -114,11 +130,12 @@ if ( class_exists( 'WC_Shipping_Method' ) ) {
 
 					/* WPML do not respect the meta data currency property. */
 					global $woocommerce_wpml;
-					if ( isset( $woocommerce_wpml ) && $woocommerce_wpml->settings['enable_multi_currency'] == WCML_MULTI_CURRENCIES_INDEPENDENT ) {
+					if ( isset( $woocommerce_wpml ) && WCML_MULTI_CURRENCIES_INDEPENDENT === $woocommerce_wpml->settings['enable_multi_currency'] ) {
 						$rate['cost'] = $woocommerce_wpml->multi_currency->prices->unconvert_price_amount( $rate['cost'], $shipping_data['currency'] );
 					}
 				}
 			}
+
 			$this->add_rate( apply_filters( 'klarna_kss_shipping_method_add_rate', $rate ) );
 		}
 	}
@@ -130,7 +147,7 @@ if ( class_exists( 'WC_Shipping_Method' ) ) {
 	 * @param array $methods WooCommerce shipping methods.
 	 * @return array
 	 */
-	function add_kss_shipping_method( $methods ) {
+	function add_kss_shipping_method( $methods ) { // phpcs:ignore Universal.Files.SeparateFunctionsFromOO.Mixed -- Legacy
 		$methods['klarna_kss'] = 'KSS_Shipping_Method';
 		return $methods;
 	}

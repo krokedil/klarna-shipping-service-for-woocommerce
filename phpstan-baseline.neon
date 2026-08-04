@@ -1,0 +1,46 @@
+parameters:
+  ignoreErrors:
+    - message: '#^PHPDoc tag @return has invalid value \(self\:\:\$instance The \*Singleton\* instance\.\)\: Unexpected token "\$instance", expected \* at offset 78 on line 4$#'
+      identifier: phpDoc.parseError
+      count: 1
+      path: classes/class-kss-admin-notices.php
+
+    - message: '#^PHPDoc tag @var has invalid value \(\$instance\)\: Unexpected token "\$instance", expected type at offset 75 on line 4$#'
+      identifier: phpDoc.parseError
+      count: 1
+      path: classes/class-kss-admin-notices.php
+
+    - message: '#^Constant KLARNA_KSS_PATH not found\.$#'
+      identifier: constant.notFound
+      count: 1
+      path: classes/class-kss-cart-page.php
+
+    - message: '#^Binary operation "\+" between string and string results in an error\.$#'
+      identifier: binaryOp.invalid
+      count: 1
+      path: classes/class-kss-compare-totals.php
+
+    - message: '#^Function KCO_WC not found\.$#'
+      identifier: function.notFound
+      count: 2
+      path: classes/class-kss-free-orders.php
+
+    - message: '#^Right side of && is always true\.$#'
+      identifier: booleanAnd.rightAlwaysTrue
+      count: 1
+      path: classes/class-kss-free-orders.php
+
+    - message: '#^Constant WCML_MULTI_CURRENCIES_INDEPENDENT not found\.$#'
+      identifier: constant.notFound
+      count: 1
+      path: classes/class-kss-shipping-method.php
+
+    - message: '#^Access to an undefined property WooCommerce\:\:\$shipping\.$#'
+      identifier: property.notFound
+      count: 1
+      path: klarna-shipping-service-for-woocommerce.php
+
+    - message: '#^Call to static method buildUpdateChecker\(\) on an unknown class Puc_v4_Factory\.$#'
+      identifier: class.notFound
+      count: 1
+      path: klarna-shipping-service-for-woocommerce.php

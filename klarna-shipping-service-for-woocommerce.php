@@ -5,14 +5,15 @@
  * Description: Kustom Shipping Assistant for WooCommerce.
  * Author: Krokedil
  * Author URI: https://krokedil.com/
- * Version: 1.3.1
+ * Version: 1.3.2
  * Text Domain: klarna-shipping-service-for-woocommerce
  * Domain Path: /languages
+ * Requires Plugins: woocommerce
  *
  * WC requires at least: 3.8
- * WC tested up to: 10.1.2
+ * WC tested up to: 11.0
  *
- * Copyright (c) 2017-2024 Krokedil
+ * Copyright (c) 2017-2026 Krokedil
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,9 +33,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-
 // Define plugin constants.
-define( 'KLARNA_KSS_VERSION', '1.3.1' );
+define( 'KLARNA_KSS_VERSION', '1.3.2' );
 define( 'KLARNA_KSS_URL', untrailingslashit( plugins_url( '/', __FILE__ ) ) );
 define( 'KLARNA_KSS_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
 
@@ -42,11 +42,66 @@ define( 'KLARNA_KSS_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
  * Plugin main class.
  */
 class Klarna_Shipping_Service_For_WooCommerce {
+	/**
+	 * The reference the *Singleton* instance of this class.
+	 *
+	 * @var Klarna_Shipping_Service_For_WooCommerce $instance
+	 */
+	private static $instance = null;
+
+	/**
+	 * The hook registry instance.
+	 *
+	 * @var \Krokedil\KustomShippingService\HookRegistry
+	 */
+	protected $hook_registry;
+
+	/**
+	 * The API registry instance.
+	 *
+	 * @var \Krokedil\KustomShippingService\API\ApiRegistry
+	 */
+	protected $api_registry;
+
+	/**
+	 * Returns the *Singleton* instance of this class.
+	 *
+	 * @return Klarna_Shipping_Service_For_WooCommerce The *Singleton* instance.
+	 */
+	public static function get_instance() {
+		if ( null === self::$instance ) {
+			self::$instance = new self();
+		}
+
+		return self::$instance;
+	}
+
+	/**
+	 * Private clone method to prevent cloning of the instance of the
+	 * *Singleton* instance.
+	 *
+	 * @return void
+	 */
+	private function __clone() {
+		wc_doing_it_wrong( __FUNCTION__, __( 'Nope', 'klarna-shipping-service-for-woocommerce' ), '1.0' );
+	}
+
+	/**
+	 * Private unserialize method to prevent unserializing of the *Singleton*
+	 * instance.
+	 *
+	 * @return void
+	 */
+	public function __wakeup() {
+		wc_doing_it_wrong( __FUNCTION__, __( 'Nope', 'klarna-shipping-service-for-woocommerce' ), '1.0' );
+	}
 
 	/**
 	 * Class constructor.
+	 *
+	 * @return void
 	 */
-	public function __construct() {
+	protected function __construct() {
 		add_action( 'plugins_loaded', array( $this, 'init' ) );
 		add_action( 'plugins_loaded', array( $this, 'check_version' ) );
 		add_action( 'kco_wc_process_payment', array( $this, 'add_shipping_details_to_order' ), 10, 2 );
@@ -100,16 +155,25 @@ class Klarna_Shipping_Service_For_WooCommerce {
 	 * @return void
 	 */
 	public function include_files() {
+		// Include the autoloader from composer. If it fails, we'll just return and not load the plugin. But an admin notice will show to the merchant.
+		if ( ! self::init_composer() ) {
+			return;
+		}
+
 		// Include classes.
 		if ( is_admin() ) {
 			include_once KLARNA_KSS_PATH . '/classes/class-kss-admin-notices.php';
 		}
+
 		include_once KLARNA_KSS_PATH . '/classes/class-kss-cart-page.php';
 		include_once KLARNA_KSS_PATH . '/classes/class-kss-shipping-method.php';
 		include_once KLARNA_KSS_PATH . '/classes/class-kss-order-lines.php';
 		include_once KLARNA_KSS_PATH . '/classes/class-kss-free-orders.php';
 		include_once KLARNA_KSS_PATH . '/classes/class-kss-edit-klarna-order.php';
 		include_once KLARNA_KSS_PATH . '/classes/class-kss-compare-totals.php';
+
+		$this->hook_registry = new \Krokedil\KustomShippingService\HookRegistry();
+		$this->api_registry  = new \Krokedil\KustomShippingService\API\ApiRegistry();
 	}
 
 	/**
@@ -136,16 +200,29 @@ class Klarna_Shipping_Service_For_WooCommerce {
 	 */
 	public function add_shipping_details_to_order( $order_id, $klarna_order ) {
 		if ( isset( $klarna_order['selected_shipping_option'] ) ) {
-			$order = wc_get_order( $order_id );
+			$kco_id = $klarna_order['id'];
+			$order  = wc_get_order( $order_id );
 
 			$shipping_details = $klarna_order['selected_shipping_option'];
 			if ( isset( $shipping_details['tms_reference'] ) ) {
 				$order->update_meta_data( '_kco_kss_reference', $shipping_details['tms_reference'] );
 			}
 
+			// Update the shipping details with the override data if it exists, since we want to save the overridden shipping details to the order, not the original ones from KSS.
+			$override_data = get_transient( "kss_override_data_$kco_id" );
+			if ( $override_data ) {
+				$shipping_details['price']      = $override_data['price'] ?? $shipping_details['price'];
+				$shipping_details['name']       = $override_data['name'] ?? $shipping_details['name'];
+				$shipping_details['tax_rate']   = $override_data['tax_rate'] ?? $shipping_details['tax_rate'];
+				$shipping_details['tax_amount'] = $override_data['tax_amount'] ?? $shipping_details['tax_amount'];
+			}
+
 			$order->update_meta_data( '_kco_kss_data', wp_json_encode( $shipping_details, JSON_UNESCAPED_UNICODE ) );
 			$order->save();
 			WC()->session->__unset( 'kco_kss_enabled' );
+
+			// Clear the kss_override_data_{order_id} transient since we have now saved the shipping data to the order.
+			delete_transient( "kss_override_data_$kco_id" );
 		}
 	}
 
@@ -157,16 +234,14 @@ class Klarna_Shipping_Service_For_WooCommerce {
 	public function clear_shipping_and_recalculate() {
 		if ( 'kco' === WC()->session->get( 'chosen_payment_method' ) ) {
 			WC()->session->set( 'kco_kss_enabled', true );
-			$packages = WC()->cart->get_shipping_packages();
-			foreach ( $packages as $package_key => $package ) {
-				$session_key = 'shipping_for_package_' . $package_key;
-				WC()->session->__unset( $session_key );
-			}
 		} elseif ( null !== WC()->session->get( 'kco_kss_enabled' ) ) {
-				WC()->session->__unset( 'kco_kss_enabled' );
-				$packages = WC()->cart->get_shipping_packages();
-			foreach ( $packages as $package_key => $package ) {
-				$session_key = 'shipping_for_package_' . $package_key;
+			WC()->session->__unset( 'kco_kss_enabled' );
+		}
+
+		// Clear this customer's cached shipping rates so WooCommerce re-runs shipping on the next
+		// calculation. We unset every 'shipping_for_package_*' session key (not just the main-cart packages).
+		foreach ( array_keys( WC()->session->get_session_data() ) as $session_key ) {
+			if ( 0 === strpos( $session_key, 'shipping_for_package_' ) ) {
 				WC()->session->__unset( $session_key );
 			}
 		}
@@ -176,12 +251,12 @@ class Klarna_Shipping_Service_For_WooCommerce {
 	 * Make sure that KCO iframe is displayed in checkout even if order total is 0.
 	 * This is needed so we can save the tms data to the Woo order.
 	 *
-	 * @param bool $bool Wether or not the plugin should check if KCO checkout should be displayed. Defaults to true.
+	 * @param bool $needs_payment Wether or not the plugin should check if KCO checkout should be displayed. Defaults to true.
 	 *
 	 * @return bool
 	 */
-	public function change_check_if_needs_payment( $bool ) {
-		// Allways return false. We want to display the KCO iframe even if order total is 0.
+	public function change_check_if_needs_payment( $needs_payment ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found -- We need to have the $needs_payment parameter to be able to use this as a filter for 'kco_check_if_needs_payment'.
+		// Always return false. We want to display the KCO iframe even if order total is 0.
 		return false;
 	}
 
@@ -199,5 +274,84 @@ class Klarna_Shipping_Service_For_WooCommerce {
 			'klarna-shipping-service-for-woocommerce'
 		);
 	}
+
+	/**
+	 * Get the instance of the hook registry class.
+	 *
+	 * @return Krokedil\KustomShippingService\HookRegistry
+	 */
+	public function hook_registry() {
+		return $this->hook_registry;
+	}
+
+	/**
+	 * Get the instance of the API registry class.
+	 *
+	 * @return Krokedil\KustomShippingService\API\ApiRegistry
+	 */
+	public function api_registry() {
+		return $this->api_registry;
+	}
+
+	/**
+	 * Initialize composers autoloader. If it does not exist, bail and show an error.
+	 *
+	 * @return mixed
+	 */
+	private static function init_composer() {
+		$autoloader = KLARNA_KSS_PATH . '/vendor/autoload.php';
+
+		if ( ! is_readable( $autoloader ) ) {
+			self::missing_autoloader();
+			return false;
+		}
+
+		$autoloader_result = require $autoloader;
+
+		if ( ! $autoloader_result ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Print error message for missing autoloader.
+	 *
+	 * @return void
+	 */
+	private static function missing_autoloader() {
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			error_log( // phpcs:ignore
+				esc_html__( 'Your installation of Kustom Shipping Assistant for WooCommerce is not complete. If you installed this plugin directly from Github please refer to the readme.dev.md file in the plugin.', 'klarna-shipping-service-for-woocommerce' )
+			);
+		}
+
+		add_action(
+			'admin_notices',
+			function () {
+				?>
+					<div class="notice notice-error">
+						<p>
+							<?php echo esc_html__( 'Your installation of Kustom Shipping Assistant for WooCommerce is not complete. If you installed this plugin directly from Github please refer to the readme.dev.md file in the plugin.', 'klarna-shipping-service-for-woocommerce' ); ?>
+						</p>
+					</div>
+				<?php
+			}
+		);
+	}
 }
-new Klarna_Shipping_Service_For_WooCommerce();
+
+/**
+ * Main instance of Kustom Shipping Assistant.
+ *
+ * Returns the main instance of Kustom Shipping Assistant.
+ *
+ * @return Klarna_Shipping_Service_For_WooCommerce
+ */
+function kustom_shipping_assistant() { // phpcs:ignore
+	return Klarna_Shipping_Service_For_WooCommerce::get_instance();
+}
+
+// Create a instance of the plugin to load it.
+kustom_shipping_assistant();

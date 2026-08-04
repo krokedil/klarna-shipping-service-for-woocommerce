@@ -6,3 +6,9 @@
 .gitattributes
 Dockerfile
 docker-compose.yml
+readme.dev.md
+phpstan.neon
+phpstan-baseline.neon
+phpcs.xml
+composer.json
+composer.lock

@@ -2,10 +2,10 @@
 Contributors: krokedil
 Tags: woocommerce, klarna, ecommerce, e-commerce, instant shopping
 Requires at least: 5.0.0
-Tested up to: 6.8
+Tested up to: 7.0
 Requires PHP: 7.0
 WC requires at least: 4.0.0
-WC tested up to: 10.1.2
+WC tested up to: 11.0
 Stable tag: trunk
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -24,6 +24,10 @@ To install this plugin you first need to have Kustom Checkout for WooCommerce in
 More information regarding configuration of this plugin can be found in the documentation here: https://docs.krokedil.com/article/298-klarna-shipping-service-for-woocommerce.
 
 == Changelog ==
+= 2026.08.04    - version 1.3.2 =
+* Fix           - Fixed an issue where shipping costs were miscalculated for stores treating shipping prices as tax-inclusive.
+* Fix           - Fixed an issue with price calculation for free trial subscriptions with shipping, preventing the subscription from being completed.
+
 = 2025.09.02    - version 1.3.1 =
 * Fix           - Resolved PHP 8 deprecation warnings.
 
