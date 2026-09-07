@@ -2,6 +2,7 @@
 namespace Krokedil\KustomShippingService;
 
 use Krokedil\KustomShippingService\API\Controllers\ShippingOptionUpdateController;
+use Krokedil\KustomShippingService\Services\ShippingCostRequiresAddress;
 
 \defined( 'ABSPATH' ) || exit;
 
@@ -22,6 +23,8 @@ class HookRegistry {
 		add_filter( 'kco_wc_gateway_settings', array( $this, 'add_callback_settings' ) );
 		add_filter( 'kco_wc_merchant_urls', array( $this, 'maybe_add_shipping_option_change_callback_url' ) );
 		add_filter( 'kco_wc_api_request_args', array( $this, 'maybe_add_subscription_free_trial_tag' ) );
+
+		new ShippingCostRequiresAddress();
 	}
 
 	/**
