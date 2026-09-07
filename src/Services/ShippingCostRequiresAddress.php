@@ -58,8 +58,8 @@ class ShippingCostRequiresAddress {
 	 * @return bool
 	 */
 	private function is_kustom_driven_checkout() {
-		// The Store API uses its own cart context, so the block cart and checkout are left untouched.
-		if ( ! WC()->cart || 'shortcode' !== WC()->cart->cart_context ) {
+		// The Store API uses its own cart, so the block cart and checkout are left untouched.
+		if ( ! WC()->cart || ! $this->is_shortcode_cart() ) {
 			return false;
 		}
 
@@ -84,6 +84,20 @@ class ShippingCostRequiresAddress {
 		}
 
 		return $this->is_checkout_request();
+	}
+
+	/**
+	 * Whether the cart belongs to the shortcode context rather than the Store API.
+	 *
+	 * @return bool
+	 */
+	private function is_shortcode_cart() {
+		// WC_Cart::$cart_context was added in WooCommerce 9.9. Older versions have no equivalent, so the Store API is excluded by its request type instead.
+		if ( ! property_exists( WC()->cart, 'cart_context' ) ) {
+			return ! WC()->is_rest_api_request();
+		}
+
+		return 'shortcode' === WC()->cart->cart_context;
 	}
 
 	/**
