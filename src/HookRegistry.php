@@ -41,7 +41,7 @@ class HookRegistry {
 				'ksa_enable_shipping_option_update_callback' => array(
 					'title'       => __( 'Enable shipping option update callback', 'klarna-shipping-service-for-woocommerce' ),
 					'type'        => 'checkbox',
-					'label'       => __( 'Enable the shipping option update callback for Kustom Shipping Assistant to override shipping data from WooCommerce.', 'klarna-shipping-service-for-woocommerce' ),
+					'label'       => __( 'Enable the shipping option update callback for WooCommerce to override shipping data from Kustom Shipping Assistant.', 'klarna-shipping-service-for-woocommerce' ),
 					'default'     => 'no',
 					'description' => __( 'Enabling this setting will allow WooCommerce to override shipping data from Kustom Shipping Assistant with data. For example if you need to override the tax rate used by shipping options in cases where the TMS does not provide the correct tax rate.', 'klarna-shipping-service-for-woocommerce' ),
 				),
