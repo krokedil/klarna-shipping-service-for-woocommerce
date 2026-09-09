@@ -8,6 +8,8 @@ namespace Krokedil\KustomShippingService\Services;
  *
  * Disables the WooCommerce "Hide shipping costs until an address is entered" setting while Kustom drives shipping on the classic checkout.
  *
+ * The filter is registered by HookRegistry, which also exposes this instance so it can be unhooked.
+ *
  * @package Krokedil\KustomShippingService\Services
  */
 class ShippingCostRequiresAddress {
@@ -17,15 +19,6 @@ class ShippingCostRequiresAddress {
 	 * @var bool
 	 */
 	private $disabled = false;
-
-	/**
-	 * Class constructor.
-	 *
-	 * @return void
-	 */
-	public function __construct() {
-		add_filter( 'option_woocommerce_shipping_cost_requires_address', array( $this, 'maybe_disable' ) );
-	}
 
 	/**
 	 * Report the setting as disabled once Kustom has returned a shipping option.
