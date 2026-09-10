@@ -5,13 +5,13 @@
  * Description: Kustom Shipping Assistant for WooCommerce.
  * Author: Krokedil
  * Author URI: https://krokedil.com/
- * Version: 1.3.2
+ * Version: 1.3.3
  * Text Domain: klarna-shipping-service-for-woocommerce
  * Domain Path: /languages
  * Requires Plugins: woocommerce
  *
  * WC requires at least: 3.8
- * WC tested up to: 11.0
+ * WC tested up to: 11.1.0
  *
  * Copyright (c) 2017-2026 Krokedil
  *
@@ -34,7 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Define plugin constants.
-define( 'KLARNA_KSS_VERSION', '1.3.2' );
+define( 'KLARNA_KSS_VERSION', '1.3.3' );
 define( 'KLARNA_KSS_URL', untrailingslashit( plugins_url( '/', __FILE__ ) ) );
 define( 'KLARNA_KSS_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
 

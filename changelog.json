@@ -83,5 +83,10 @@
         "description": "<ul><li>Fix - Fixed an issue where shipping costs were miscalculated for stores treating shipping prices as tax-inclusive.</li><li>Fix - Fixed an issue with price calculation for free trial subscriptions with shipping, preventing the subscription from being completed.</li></ul>",
         "requires": "5.0.0",
         "tested": "7.0.2"
+    },
+    "1.3.3": {
+        "description": "<ul><li>Fix - Fixed an issue where an overridden shipping cost was not added to the Kustom Checkout order, causing the order total to differ from WooCommerce.</li></ul>",
+        "requires": "5.0.0",
+        "tested": "7.1.0"
     }
 }
