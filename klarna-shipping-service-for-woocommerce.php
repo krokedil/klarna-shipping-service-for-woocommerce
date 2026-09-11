@@ -186,9 +186,32 @@ class Klarna_Shipping_Service_For_WooCommerce {
 		$shipping_methods = WC()->shipping->get_shipping_methods();
 		// Only do this if we have Kustom KSS active on the store, and the returned shipping method is NOT a real WooCommerce shipping method.
 		if ( isset( $shipping_methods['klarna_kss'] ) && ! isset( $shipping_methods[ $chosen_shipping_methods[0] ] ) ) {
-			return array( 'klarna_kss' );
+			return array( $this->get_kss_rate_id() );
 		}
 		return $chosen_shipping_methods;
+	}
+
+	/**
+	 * Returns the rate ID of this store's Kustom Shipping Assistant shipping method.
+	 *
+	 * @return string The rate ID, or the bare method ID if no enabled instance was found.
+	 */
+	private function get_kss_rate_id() {
+		if ( ! WC()->cart ) {
+			return 'klarna_kss';
+		}
+
+		// The method is zone-instantiated, so WooCommerce matches it by rate ID ('klarna_kss:49') and falls back to the first rate in the zone on a miss.
+		foreach ( WC()->cart->get_shipping_packages() as $package ) {
+			$zone = WC_Shipping_Zones::get_zone_matching_package( $package );
+			foreach ( $zone->get_shipping_methods( true ) as $shipping_method ) {
+				if ( 'klarna_kss' === $shipping_method->id ) {
+					return $shipping_method->get_rate_id();
+				}
+			}
+		}
+
+		return 'klarna_kss';
 	}
 
 	/**

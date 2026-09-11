@@ -2,6 +2,7 @@
 namespace Krokedil\KustomShippingService;
 
 use Krokedil\KustomShippingService\API\Controllers\ShippingOptionUpdateController;
+use Krokedil\KustomShippingService\Services\ShippingCostRequiresAddress;
 
 \defined( 'ABSPATH' ) || exit;
 
@@ -14,14 +15,36 @@ use Krokedil\KustomShippingService\API\Controllers\ShippingOptionUpdateControlle
  */
 class HookRegistry {
 	/**
+	 * The service that decides whether WooCommerce's shipping address gate applies.
+	 *
+	 * @var ShippingCostRequiresAddress
+	 */
+	private $shipping_cost_requires_address;
+
+	/**
 	 * Class constructor.
 	 *
 	 * @return void
 	 */
 	public function __construct() {
+		$this->shipping_cost_requires_address = new ShippingCostRequiresAddress();
+
 		add_filter( 'kco_wc_gateway_settings', array( $this, 'add_callback_settings' ) );
 		add_filter( 'kco_wc_merchant_urls', array( $this, 'maybe_add_shipping_option_change_callback_url' ) );
 		add_filter( 'kco_wc_api_request_args', array( $this, 'maybe_add_subscription_free_trial_tag' ) );
+		add_filter( 'option_woocommerce_shipping_cost_requires_address', array( $this->shipping_cost_requires_address, 'maybe_disable' ) );
+	}
+
+	/**
+	 * Get the instance of the shipping cost requires address service.
+	 *
+	 * Exposed so the filter above can be removed with remove_filter() without
+	 * having to drop every other callback on the option.
+	 *
+	 * @return ShippingCostRequiresAddress
+	 */
+	public function shipping_cost_requires_address() {
+		return $this->shipping_cost_requires_address;
 	}
 
 	/**
